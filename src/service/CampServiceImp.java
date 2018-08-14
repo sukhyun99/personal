@@ -16,4 +16,9 @@ public class CampServiceImp implements CampService{
 		cDao.insertCamp(camp);
 	}
 
+	@Override
+	public Camp getCamp(int campId) {		
+		return cDao.selectOne(campId);
+	}
+
 }

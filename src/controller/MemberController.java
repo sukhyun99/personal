@@ -123,7 +123,7 @@ public class MemberController {
 				member.setEmail(businessEmail);
 				member.setJoinDate(joinDate);
 				member.setName(nameArr[m]);
-				member.setPhone(Integer.valueOf(businessPhone));
+				member.setPhone(businessPhone);
 				member.setPw(pw);
 				member.setUserId(userId);
 				System.out.println(member.toString());

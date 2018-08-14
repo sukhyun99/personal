@@ -13,7 +13,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 </insert>
 
+<select id="selectOne" parameterType="int" resultType="camp">
 
+	select * from camp where campId=#{campId}
+
+</select>
 
 
 </mapper>

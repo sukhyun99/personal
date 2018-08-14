@@ -5,7 +5,7 @@ public class Camp {
 	int campId;
 	String campName;
 	String sellerId;
-	int campPhone;
+	String campPhone;
 	String campAddr;
 	String campOwner;
 	boolean status;
@@ -32,10 +32,10 @@ public class Camp {
 	public void setSellerId(String sellerId) {
 		this.sellerId = sellerId;
 	}
-	public int getCampPhone() {
+	public String getCampPhone() {
 		return campPhone;
 	}
-	public void setCampPhone(int campPhone) {
+	public void setCampPhone(String campPhone) {
 		this.campPhone = campPhone;
 	}
 	public String getCampAddr() {

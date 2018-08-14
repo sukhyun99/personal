@@ -4,7 +4,7 @@ public class Seller {
 
 	long businessNum;
 	String businessName;
-	int businessPhone;
+	String businessPhone;
 	String businessAddr;
 	String businessEmail;
 	int businessPost;
@@ -23,10 +23,10 @@ public class Seller {
 	public void setBusinessName(String businessName) {
 		this.businessName = businessName;
 	}
-	public int getBusinessPhone() {
+	public String getBusinessPhone() {
 		return businessPhone;
 	}
-	public void setBusinessPhone(int businessPhone) {
+	public void setBusinessPhone(String businessPhone) {
 		this.businessPhone = businessPhone;
 	}
 	public String getBusinessAddr() {

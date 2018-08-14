@@ -5,7 +5,7 @@ public class Member {
 	String userId;
 	String pw;
 	String name;
-	int phone;
+	String phone;
 	String email;
 	String addr;
 	int post;
@@ -30,10 +30,10 @@ public class Member {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getPhone() {
+	public String getPhone() {
 		return phone;
 	}
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 	public String getEmail() {

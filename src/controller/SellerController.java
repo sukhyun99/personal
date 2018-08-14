@@ -73,7 +73,7 @@ public class SellerController {
 				seller.setBusinessEmail(businessEmail);
 				seller.setBusinessName(dataJson.records.get(w).name);
 				seller.setBusinessNum(Long.parseLong(businessNum));
-				seller.setBusinessPhone(Integer.parseInt(businessPhone));
+				seller.setBusinessPhone(businessPhone);
 				seller.setSellerId(sellerId);
 				seller.setJoinDate(joinDate);
 				sService.joinSeller(seller);

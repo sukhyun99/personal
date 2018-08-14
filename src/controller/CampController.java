@@ -34,7 +34,7 @@ public class CampController {
 		
 		JsonParser parser = new JsonParser();
 		try {
-			Object obj = parser.parse(new FileReader("C:\\\\Users\\\\rkrtj\\\\Documents\\\\eclipse-jee-oxygen-3a-win32-x86_64\\\\workspace\\\\jsonParsing01\\\\camp.json"));
+			Object obj = parser.parse(new FileReader("C:\\Users\\rkrtj\\Documents\\eclipse-jee-oxygen-3a-win32-x86_64\\workspace\\jsonParsing01\\camp.json"));
 			JsonObject jsonObject = (JsonObject) obj;
 			DataJson dataJson = new Gson().fromJson(jsonObject, DataJson.class);
 			
@@ -56,7 +56,7 @@ public class CampController {
 				camp.setSellerId(sellerId);			
 				camp.setCampAddr(dataJson.records.get(w).campAddr);
 				camp.setCampName(dataJson.records.get(w).name);
-				camp.setCampPhone(Integer.parseInt(businessPhone));
+				camp.setCampPhone(businessPhone);
 				camp.setStatus(false);
 				
 				cService.addCamp(camp);

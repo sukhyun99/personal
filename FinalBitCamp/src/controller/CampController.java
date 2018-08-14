@@ -15,35 +15,41 @@ public class CampController {
 	
 	@Autowired
 	private CampService cService;
-	@RequestMapping("campSiteSearch.do")
-	public List<Map<String, Object>> campSerach(@RequestParam(value="chkIn") int chkIn, @RequestParam(value="chkOut") int chkOut,
-			@RequestParam(required=false) String campAddr, @RequestParam(required=false) String campName,
-			@RequestParam(required=false) String campPerson){
-		if(campAddr==null&campName==null&campPerson==null) {	//날짜로만 검색
-			
-		}
-		else if(campAddr==null&campName==null) {		//날짜, 캠프인원으로 검색
-			
-		}
-		else if(campAddr==null&campPerson==null) {		//날짜, 캠프장명으로 검색
-			
-		}
-		else if(campName==null&campPerson==null) {		//날짜, 캠프장 주소로 검색
-			
-		}
-		else if(campName==null) {		//날짜, 캠프장 주소, 캠프 인원으로 검색
-			
-		}
-		else if(campAddr==null) {		//날짜, 캠프장명, 캠프 인원으로 검색
-					
-		}
-		else if(campPerson==null) {		//날짜, 캠프장 주소, 캠프장명으로 검색
-			
-		}
-		else {			//날짜, 캠프장주소, 캠프장명, 캠프 인원으로 검색
-			
-		}
-		
-		return null;		
+	
+	@RequestMapping("camp.do")
+	public void campSiteSearch() {
+		List<Map<String, Object>> campSearchList = cService.campSiteSearch(20180816);
+		System.out.println(campSearchList.toString());
 	}
+//	@RequestMapping("campSiteSearch.do")
+//	public List<Map<String, Object>> campSerach(@RequestParam(value="chkIn") int chkIn, @RequestParam(value="chkOut") int chkOut,
+//			@RequestParam(required=false) String campAddr, @RequestParam(required=false) String campName,
+//			@RequestParam(required=false) String campPerson){
+//		if(campAddr==null&campName==null&campPerson==null) {	//날짜로만 검색
+//			
+//		}
+//		else if(campAddr==null&campName==null) {		//날짜, 캠프인원으로 검색
+//			
+//		}
+//		else if(campAddr==null&campPerson==null) {		//날짜, 캠프장명으로 검색
+//			
+//		}
+//		else if(campName==null&campPerson==null) {		//날짜, 캠프장 주소로 검색
+//			
+//		}
+//		else if(campName==null) {		//날짜, 캠프장 주소, 캠프 인원으로 검색
+//			
+//		}
+//		else if(campAddr==null) {		//날짜, 캠프장명, 캠프 인원으로 검색
+//					
+//		}
+//		else if(campPerson==null) {		//날짜, 캠프장 주소, 캠프장명으로 검색
+//			
+//		}
+//		else {			//날짜, 캠프장주소, 캠프장명, 캠프 인원으로 검색
+//			
+//		}
+//		
+//		return null;		
+//	}
 }

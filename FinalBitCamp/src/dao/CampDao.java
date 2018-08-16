@@ -1,5 +1,6 @@
 package dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,6 @@ public interface CampDao {
 	public void insertCamp(Camp camp);
 	public Camp selectOne(int campId);
 	public List<Map<String, Object>> getStock(String chkIn);
-	public List<Map<String, Object>> selectAll();
+	public List<Map<String, Object>> selectAll(HashMap<String, Object>params);
 	public Picture selectPic(int campId);
 }

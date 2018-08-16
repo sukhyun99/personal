@@ -34,7 +34,8 @@ public class CampController {
 	
 	@RequestMapping("camp.do")
 	public void campSiteSearch() {
-		List<Map<String, Object>>campSearchList = cService.campSiteSearch("20180816", "20180819");
+		List<Map<String, Object>>campSearchList = cService.campSiteSearch("20180816", "20180819", "농원", "울산", "10");
+		System.out.println(campSearchList.size());
 		System.out.println(campSearchList.toString());
 	}
 //	@RequestMapping("campSiteSearch.do")

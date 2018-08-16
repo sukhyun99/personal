@@ -33,7 +33,7 @@ public class CampServiceImp implements CampService{
 	}
 
 	@Override
-	public List<Map<String, Object>> campSiteSearch(String chkIn, String chkOut) {
+	public List<Map<String, Object>> campSiteSearch(String chkIn, String chkOut, String campName, String campAddr, String campPerson) {
 		List<Integer> outOfStock = new ArrayList<Integer>();
 		List<Map<String, Object>> campSearchList = new ArrayList<>();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
@@ -50,16 +50,20 @@ public class CampServiceImp implements CampService{
 					int campSiteStock = (int) stock.get(i).get("campSiteStock");
 					long count = (long) stock.get(i).get("count(*)");
 					if(campSiteStock==count) {
-						outOfStock.add((Integer) stock.get(i).get("siteId"));
+						outOfStock.add((Integer) stock.get(i).get("siteId"));					//재고가 남아있지 않은 사이트를 리스트에 추가한다.
 					}
 				}
 			}
-			campSearchList = cDao.selectAll();
+			HashMap<String, Object>params = new HashMap<>();
+			params.put("campName", campName);
+			params.put("campAddr", campAddr);
+			params.put("campPerson", campPerson);
+			campSearchList = cDao.selectAll(params);
 			for(int z=0; z<outOfStock.size(); z++) {
 				int siteId = outOfStock.get(z);
 				for(int p=0; p<campSearchList.size(); p++) {
 					if(siteId==(int) campSearchList.get(p).get("siteId")) {
-						campSearchList.remove(p);						
+						campSearchList.remove(p);												//재고가 남이있지 않은 사이트를 검색리스트에서 제거한다.				
 					}
 				}
 			}

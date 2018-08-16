@@ -9,6 +9,6 @@ import model.Camp;
 public interface CampService {
 	public void addCamp(Camp camp);
 	public Camp getCamp(int campId);
-	public List<Map<String, Object>> campSiteSearch(String chkIn, String chkOut);
+	public List<Map<String, Object>> campSiteSearch(String chkIn, String chkOut, String campName, String campAddr, String campPerson);
 	public File attachFile(int num);
 }

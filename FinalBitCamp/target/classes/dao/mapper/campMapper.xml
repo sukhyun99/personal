@@ -25,9 +25,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 </select>
 
-<select id="selectAll" resultType="java.util.HashMap">
+<select id="selectAll" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 
-	select c.campName, s.campSiteName, c.campAddr, c.campPhone, s.dayPrice, s.siteId from camp c join site s where c.campId = s.campId
+	select c.campName, s.campSiteName, c.campAddr, c.campPhone, s.dayPrice, s.siteId from camp c join site s where 1=0 
+	<if test="campName!=null">or c.campId = s.campId and c.campName like '%${campName}%'</if>
+	<if test="campAddr!=null">or c.campId = s.campId and c.campAddr like '%${campAddr}%'</if>
+	<if test="campPerson!=null">or c.campId = s.campId and s.campPerson like '%${campPerson}%'</if>
+	<choose>
+		<when test="campName==null and campAddr==null and campPerson==null">
+			or 1=1 and c.campId = s.campId
+		</when>
+	</choose>
 
 </select>
 

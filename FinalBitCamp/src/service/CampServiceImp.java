@@ -33,7 +33,7 @@ public class CampServiceImp implements CampService{
 	}
 
 	@Override
-	public List<Map<String, Object>> campSiteSearch(String chkIn, String chkOut, String campName, String campAddr, String campPerson) {
+	public List<Map<String, Object>> campSiteSearch(String chkIn, String chkOut, String search, String campPerson, int type) {
 		List<Integer> outOfStock = new ArrayList<Integer>();
 		List<Map<String, Object>> campSearchList = new ArrayList<>();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
@@ -55,10 +55,11 @@ public class CampServiceImp implements CampService{
 				}
 			}
 			HashMap<String, Object>params = new HashMap<>();
-			params.put("campName", campName);
-			params.put("campAddr", campAddr);
+			params.put("campName", search);
+			params.put("campAddr", search);
 			params.put("campPerson", campPerson);
-			campSearchList = cDao.selectAll(params);
+			params.put("type", type);
+			campSearchList = cDao.selectSearch(params);
 			for(int z=0; z<outOfStock.size(); z++) {
 				int siteId = outOfStock.get(z);
 				for(int p=0; p<campSearchList.size(); p++) {
@@ -81,6 +82,11 @@ public class CampServiceImp implements CampService{
 		String fileName = p.getFile();
 		File attachFile = new File(path+fileName);
 		return attachFile;
+	}
+
+	@Override
+	public List<Map<String, Object>> getLocation() {
+		return cDao.selectLocation();
 	}
 
 }

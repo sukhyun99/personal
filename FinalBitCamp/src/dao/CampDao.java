@@ -11,6 +11,7 @@ public interface CampDao {
 	public void insertCamp(Camp camp);
 	public Camp selectOne(int campId);
 	public List<Map<String, Object>> getStock(String chkIn);
-	public List<Map<String, Object>> selectAll(HashMap<String, Object>params);
+	public List<Map<String, Object>> selectSearch(HashMap<String, Object>params);
 	public Picture selectPic(int campId);
+	public List<Map<String, Object>> selectLocation();
 }

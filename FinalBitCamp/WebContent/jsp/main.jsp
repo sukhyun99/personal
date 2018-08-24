@@ -49,7 +49,7 @@
     		}
     		if($("#guest").val()!=''){
     			var guest = $("#guest").val().split('');
-    			var campPerson = guest[0];
+    			var campPerson = guest[0] + guest[1];
     		}
     		location.href="campSiteSearch.do?search="+$(".typeahead").val()+"&chkIn="+chkIn+"&chkinDay="+chkinDay+"&chkOut="+chkOut+
     				"&campPerson="+campPerson;

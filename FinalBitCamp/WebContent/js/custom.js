@@ -21,7 +21,7 @@ $(document).ready(function(){
     datePickers();
     heroSearchSections();
     $('.quantity-selector').quantitySelector();
-    autocomplete();
+//    autocomplete();
     searchResultsCollapse();
     comingSoonCountdown();
     smoothScroll();

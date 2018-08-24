@@ -68,10 +68,18 @@ public class CampServiceImp implements CampService{
 					}
 				}
 			}
+			for(int i=0; i<campSearchList.size(); i++) {
+				for(int p=i+1; p<campSearchList.size(); p++) {
+					if(campSearchList.get(i).get("campSiteName").equals(campSearchList.get(p).get("campSiteName"))&&campSearchList.get(i).get("campName").equals(campSearchList.get(p).get("campName"))){
+						campSearchList.remove(p);
+						p = p-1;
+					}
+				}
+			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
+		}
 		return campSearchList;
 	}
 

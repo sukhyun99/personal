@@ -28,21 +28,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <select id="selectSearch" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 
 	<if test="type==0">
-	select c.latitude, c.longitude, c.campName, s.campSiteName, c.campAddr, c.campPhone, s.busyWkndPrice as price, s.siteId from camp c join site s where 1=0 
-	<if test="campName!=null">or c.campId = s.campId and c.campName like '%${campName}%'</if>
-	<if test="campAddr!=null">or c.campId = s.campId and c.campAddr like '%${campAddr}%'</if>
-	<if test="campPerson!=null">or c.campId = s.campId and s.campPerson like '%${campPerson}%'</if>
+	select p.file, c.campId, c.latitude, c.longitude, c.campName, s.campSiteName, c.campAddr, c.campPhone, s.busyWkndPrice as price, s.siteId from camp c join site s join picture p where 1=0 
+	<if test="campName!=null">or c.campId = s.campId and c.campId = p.campId and c.campName like '%${campName}%' and s.campPerson like '%${campPerson}%'</if>
+	<if test="campAddr!=null">or c.campId = s.campId and c.campId = p.campId and c.campAddr like '%${campAddr}%' and s.campPerson like '%${campPerson}%'</if>	
 	<choose>
-		<when test="campName==null and campAddr==nul">
+		<when test="campName==null and campAddr==null">
 			or 1=1 and c.campId = s.campId and s.campPerson like '%${campPerson}%'
 		</when>
 	</choose>
 	</if>
 	<if test="type==1">
-	select c.latitude, c.longitude, c.campName, s.campSiteName, c.campAddr, c.campPhone, s.busyDayPrice as price, s.siteId from camp c join site s where 1=0 
-	<if test="campName!=null">or c.campId = s.campId and c.campName like '%${campName}%'</if>
-	<if test="campAddr!=null">or c.campId = s.campId and c.campAddr like '%${campAddr}%'</if>
-	<if test="campPerson!=null">or c.campId = s.campId and s.campPerson like '%${campPerson}%'</if>
+	select p.file, c.campId, c.latitude, c.longitude, c.campName, s.campSiteName, c.campAddr, c.campPhone, s.busyDayPrice as price, s.siteId from camp c join site s join picture p where 1=0 
+	<if test="campName!=null">or c.campId = s.campId and c.campId = p.campId and c.campName like '%${campName}%' and s.campPerson like '%${campPerson}%'</if>
+	<if test="campAddr!=null">or c.campId = s.campId and c.campId = p.campId and c.campAddr like '%${campAddr}%' and s.campPerson like '%${campPerson}%'</if>	
 	<choose>
 		<when test="campName==null and campAddr==null">
 			or 1=1 and c.campId = s.campId and s.campPerson like '%${campPerson}%'
@@ -50,21 +48,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</choose>
 	</if>
 	<if test="type==2">
-	select c.latitude, c.longitude, c.campName, s.campSiteName, c.campAddr, c.campPhone, s.wkndPrice as price, s.siteId from camp c join site s where 1=0 
-	<if test="campName!=null">or c.campId = s.campId and c.campName like '%${campName}%'</if>
-	<if test="campAddr!=null">or c.campId = s.campId and c.campAddr like '%${campAddr}%'</if>
-	<if test="campPerson!=null">or c.campId = s.campId and s.campPerson like '%${campPerson}%'</if>
+	select p.file, c.campId, c.latitude, c.longitude, c.campName, s.campSiteName, c.campAddr, c.campPhone, s.wkndPrice as price, s.siteId from camp c join site s join picture p where 1=0 
+	<if test="campName!=null">or c.campId = s.campId and c.campId = p.campId and c.campName like '%${campName}%' and s.campPerson like '%${campPerson}%'</if>
+	<if test="campAddr!=null">or c.campId = s.campId and c.campId = p.campId and c.campAddr like '%${campAddr}%' and s.campPerson like '%${campPerson}%'</if>	
 	<choose>
 		<when test="campName==null and campAddr==null">
 			or 1=1 and c.campId = s.campId and s.campPerson like '%${campPerson}%'
 		</when>
-	</choose>	
+	</choose>
 	</if>
 	<if test="type==3">
-	select c.latitude, c.longitude, c.campName, s.campSiteName, c.campAddr, c.campPhone, s.dayPrice as price, s.siteId from camp c join site s where 1=0 
-	<if test="campName!=null">or c.campId = s.campId and c.campName like '%${campName}%'</if>
-	<if test="campAddr!=null">or c.campId = s.campId and c.campAddr like '%${campAddr}%'</if>
-	<if test="campPerson!=null">or c.campId = s.campId and s.campPerson like '%${campPerson}%'</if>
+	select p.file, c.campId, c.latitude, c.longitude, c.campName, s.campSiteName, c.campAddr, c.campPhone, s.dayPrice as price, s.siteId from camp c join site s join picture p where 1=0 
+	<if test="campName!=null">or c.campId = s.campId and c.campId = p.campId and c.campName like '%${campName}%' and s.campPerson like '%${campPerson}%'</if>
+	<if test="campAddr!=null">or c.campId = s.campId and c.campId = p.campId and c.campAddr like '%${campAddr}%' and s.campPerson like '%${campPerson}%'</if>	
 	<choose>
 		<when test="campName==null and campAddr==null">
 			or 1=1 and c.campId = s.campId and s.campPerson like '%${campPerson}%'

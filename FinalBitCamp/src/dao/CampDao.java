@@ -14,4 +14,5 @@ public interface CampDao {
 	public List<Map<String, Object>> selectSearch(HashMap<String, Object>params);
 	public Picture selectPic(int campId);
 	public List<Map<String, Object>> selectLocation();
+	public Map<String, Object> selectCampRate(int campId);
 }

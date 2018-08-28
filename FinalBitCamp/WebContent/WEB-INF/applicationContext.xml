@@ -49,4 +49,9 @@
 	<property name="mapperInterface" value="dao.FacilityDao"></property>
 </bean>
 
+<bean class="org.mybatis.spring.mapper.MapperFactoryBean" id="campReviewDao">
+	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	<property name="mapperInterface" value="dao.CampReviewDao"></property>
+</bean>
+
 </beans>

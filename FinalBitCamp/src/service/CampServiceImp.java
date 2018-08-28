@@ -28,12 +28,13 @@ public class CampServiceImp implements CampService{
 	}
 
 	@Override
-	public Camp getCamp(int campId) {		
+	public Camp getCamp(int campId) {
 		return cDao.selectOne(campId);
 	}
 
 	@Override
-	public List<Map<String, Object>> campSiteSearch(String chkIn, String chkOut, String search, String campPerson, int type) {
+	public List<Map<String, Object>> campSiteSearch(String chkIn, String chkOut, String search, String campPerson, int type, 
+			int page, String order, int qty, String desc) {
 		List<Integer> outOfStock = new ArrayList<Integer>();
 		List<Map<String, Object>> campSearchList = new ArrayList<>();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
@@ -59,6 +60,10 @@ public class CampServiceImp implements CampService{
 			params.put("campAddr", search);
 			params.put("campPerson", campPerson);
 			params.put("type", type);
+			params.put("skip", getSkip(page));
+			params.put("qty", qty);
+			params.put("order", order);
+			params.put("desc", desc);
 			campSearchList = cDao.selectSearch(params);
 			for(int z=0; z<outOfStock.size(); z++) {
 				int siteId = outOfStock.get(z);
@@ -68,14 +73,14 @@ public class CampServiceImp implements CampService{
 					}
 				}
 			}
-			for(int i=0; i<campSearchList.size(); i++) {
-				for(int p=i+1; p<campSearchList.size(); p++) {
-					if(campSearchList.get(i).get("campSiteName").equals(campSearchList.get(p).get("campSiteName"))&&campSearchList.get(i).get("campName").equals(campSearchList.get(p).get("campName"))){
-						campSearchList.remove(p);
-						p = p-1;
-					}
-				}
-			}
+//			for(int i=0; i<campSearchList.size(); i++) {
+//				for(int p=i+1; p<campSearchList.size(); p++) {
+//					if(campSearchList.get(i).get("campSiteName").equals(campSearchList.get(p).get("campSiteName"))&&campSearchList.get(i).get("campName").equals(campSearchList.get(p).get("campName"))){
+//						campSearchList.remove(p);
+//						p = p-1;
+//					}
+//				}
+//			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -97,4 +102,14 @@ public class CampServiceImp implements CampService{
 		return cDao.selectLocation();
 	}
 
+	@Override
+	public int getSkip(int page) {
+		// TODO Auto-generated method stub
+		return (page - 1) * 5;
+	}
+
+	@Override
+	public Map<String, Object> getRate(int campId) {		
+		return cDao.selectCampRate(campId);
+	}
 }

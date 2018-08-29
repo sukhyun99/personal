@@ -4285,7 +4285,7 @@ img.mfp-img {
   background: #333;
 }
 .theme-page-section-gray {
-  background: #e6e6e6;
+  background: #ffffff;
 }
 .theme-page-section-white {
   background: #fff;
@@ -9503,24 +9503,24 @@ body {
   list-style: none;
   margin: 0;
   padding: 0;
-  font-size: 12px;
+  font-size: 15px;
 }
-.theme-item-page-rooms-table-options-list > li {
-  margin-bottom: 10px;
-  position: relative;
-  padding-left: 9px;
-}
-.theme-item-page-rooms-table-options-list > li:before {
-  content: '\f111';
-  font-family: 'FontAwesome';
-  font-size: 4px;
-  position: absolute;
-  top: 8px;
-  left: 0;
-  opacity: 0.5;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-  filter: alpha(opacity=50);
-}
+/* .theme-item-page-rooms-table-options-list > li { */
+/*   margin-bottom: 10px; */
+/*   position: relative; */
+/*   padding-left: 9px; */
+/* } */
+/* .theme-item-page-rooms-table-options-list > li:before { */
+/*   content: '\f111'; */
+/*   font-family: 'FontAwesome'; */
+/*   font-size: 4px; */
+/*   position: absolute; */
+/*   top: 8px; */
+/*   left: 0; */
+/*   opacity: 0.5; */
+/*   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; */
+/*   filter: alpha(opacity=50); */
+/* } */
 .theme-item-page-rooms-table-price {
   width: 20%;
 }
@@ -9537,7 +9537,7 @@ body {
 }
 .theme-item-page-rooms-table-price-night-amount {
   font-weight: bold;
-  font-size: 32px;
+  font-size: 20px;
   letter-spacing: 0.64px;
   font-family: 'Roboto', helvetica, Arial, sans-serif;
   color: #0093d2;
@@ -9562,6 +9562,7 @@ body {
   line-height: 1.35em;
   color: #a6a6a6;
 }
+
 .theme-payment-page-item-thumb {
   border: none;
   -webkit-box-shadow: none !important;
@@ -10315,6 +10316,7 @@ body {
   background: #fff;
   margin-bottom: 20px;
   border-radius: 3px;
+  border: 1px solid black;
 }
 .theme-account-preferences-item-title {
   margin-top: 0;

@@ -47,7 +47,7 @@ public class SiteController {
 				int x = random.nextInt(4)+4;
 				int busyStart = 20180723;
 				int busyEnd = 20180826;				
-				int campId = cService.getCamp(w+1).getCampId();
+				int campId = (int) cService.getCamp(w+1).get(w+1).get("campId");
 				for(int z=0; z<x; z++) {
 					site.setCampId(campId);
 					int index = random.nextInt(w+1);

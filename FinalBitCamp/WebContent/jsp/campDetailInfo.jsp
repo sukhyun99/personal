@@ -1,3 +1,6 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
@@ -21,19 +24,30 @@
     <!-- 폰트어썸 -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" 
     integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
-
-<!--     <link href="datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css"> -->
-<!--         <script src="datepicker/dist/js/datepicker.min.js"></script> -->
-
-	<!-- air datpicker -->
-        <!-- Include English language -->
-<!--         <script src="datepicker/dist/js/i18n/datepicker.en.js"></script> -->
-    
-<!--     <link href="datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css"> -->
-    
+<script type="text/javascript">
+$(document).ready(function(){
+	var campDetail = ${campDetail};
+	var length = campDetail.length;
+	var pic = '';
+	$(".theme-item-page-header-title").text(campDetail[0].campName);
+	$(".campAddr").text(campDetail[0].campAddr);
+	$(".campId").val(campDetail[0].campId);
+	$(".sellerId").val(campDetail[0].sellerId);
+	$.each(campDetail, function(index, item){
+		if(index<length-1){
+			pic = pic + "./img/" + item.file + ","
+		}
+		else{
+			pic = pic + "./img/" + item.file
+		}
+	})
+	$(".magnific-gallery-link").attr('data-items', pic);
+	var backPic = "background-image:url(./img/" + campDetail[0].file + ");"
+	$(".theme-hero-area-bg").attr('style', backPic);
+})
+</script>
 </head>
 <body>
-
 <nav class="navbar navbar-default navbar-inverse navbar-theme navbar-theme-abs navbar-theme-transparent navbar-theme-border" id="main-nav">
       <div class="container">
         <div class="navbar-inner nav">
@@ -64,9 +78,9 @@
     </nav>
     <div class="theme-hero-area">
       <div class="theme-hero-area-bg-wrap">
-      	<input type="hidden" class="campId" name="campId" value="${campId }">
-      	<input type="hidden" class="sellerId" name="sellerId" value="${sellerId }">
-        <div class="theme-hero-area-bg" style="background-image:url(./img/campingsite/camping1.jpg);"></div>
+      	<input type="hidden" class="campId" name="campId" value="">
+      	<input type="hidden" class="sellerId" name="sellerId" value="">
+        <div class="theme-hero-area-bg" style=""></div>
         <div class="theme-hero-area-mask theme-hero-area-mask-half"></div>
         <div class="theme-hero-area-inner-shadow"></div>
       </div>
@@ -74,27 +88,16 @@
         <div class="container">
           <div class="theme-item-page-header _pt-300 _pb-50 theme-item-page-header-white">
             <div class="theme-item-page-header-body">
-              <ul class="theme-item-page-header-stars">
-                <li>
-                  <i class="fa fa-star"></i>
-                </li>
-                <li>
-                  <i class="fa fa-star"></i>
-                </li>
-                <li>
-                  <i class="fa fa-star"></i>
-                </li>
-              </ul>
-              <h1 class="theme-item-page-header-title">${campName }</h1>
+              
+              <h1 class="theme-item-page-header-title"></h1>
               <ul class="theme-breadcrumbs">
                 <li>
 	                <span>
 	                    <i class="campAddr fas fa-map-marker-alt"></i>
-	                   	 ${campAddr}
 	                </span>
 	            </li>
               </ul>
-              <a class="btn _tt-uc _ls-0 _mt-30 _p-15 magnific-gallery-link btn-default btn-white" data-items="jsp/img/campingsite/tm-img-01.jpg,./img/campingsite/tm-img-06.jpg,./img/campingsite/tm-img-07.jpg" href="#">
+              <a class="btn _tt-uc _ls-0 _mt-30 _p-15 magnific-gallery-link btn-default btn-white" data-items="./img/camp01.jpg,./img/camp02.jpg,./img/camp03.jpg" href="#">
                 <i class="btn-icon fa fa-camera"></i>사진보기
               </a>
             </div>
@@ -143,6 +146,7 @@
                           <tr>
                             <td class="theme-item-page-rooms-table-type" name="siteId" value="${siteId }">
                               <h5 class="theme-item-page-rooms-table-type-title">사이트 A</h5>
+                              <img class="theme-item-page-rooms-table-type-img" src="./img/350x232.png" alt="Image Alternative text" title="Image Title"/>
 	                              <ul class="theme-item-page-rooms-table-type-feature-list">
 	                                <li>
 	                                  <span class="camp-season1" value="성수기">성</span>
@@ -178,266 +182,6 @@
                             </td>
                             <td>
                               <a class="btn btn-primary-inverse btn-block btn-booking-form">예약</a>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class="theme-item-page-rooms-table-type">
-                              <h5 class="theme-item-page-rooms-table-type-title">Superior King Room</h5>
-                              <img class="theme-item-page-rooms-table-type-img" src="./img/350x232.png" alt="Image Alternative text" title="Image Title"/>
-                              <ul class="theme-item-page-rooms-table-type-feature-list">
-                                <li>
-                                  <i class="fa fa-bed theme-item-page-rooms-table-type-feature-list-icon"></i>1 King bed
-                                </li>
-                                <li>
-                                  <i class="fa fa-arrows-h theme-item-page-rooms-table-type-feature-list-icon"></i>270 squre feet
-                                </li>
-                                <li>
-                                  <i class="fa fa-shower theme-item-page-rooms-table-type-feature-list-icon"></i>Private bathroom
-                                </li>
-                                <li>
-                                  <i class="fa fa-wifi theme-item-page-rooms-table-type-feature-list-icon"></i>Free Wifi
-                                </li>
-                              </ul>
-                            </td>
-                            <td>
-                              <ul class="theme-item-page-rooms-table-guests-count">
-                                <li>
-                                  <i class="fa fa-male"></i>
-                                </li>
-                                <li>
-                                  <i class="fa fa-male"></i>
-                                </li>
-                              </ul>
-                            </td>
-                            <td>
-                              <ul class="theme-item-page-rooms-table-options-list">
-                                <li>Non-refundable</li>
-                                <li>Special conditions,
-                                  <br/>pay when you stay
-                                </li>
-                                <li>Breakfast $30</li>
-                              </ul>
-                            </td>
-                            <td class="theme-item-page-rooms-table-price">
-                              <div>
-                                <div class="theme-item-page-rooms-table-price-night">
-                                  <p class="theme-item-page-rooms-table-price-sign">Per night</p>
-                                  <p class="theme-item-page-rooms-table-price-night-amount">$173</p>
-                                </div>
-                                <div class="theme-item-page-rooms-table-price-total">
-                                  <p class="theme-item-page-rooms-table-price-sign">Total price
-                                    <br/>for 5 nights
-                                  </p>
-                                  <p class="theme-item-page-rooms-table-price-total-amount">$865</p>
-                                </div>
-                              </div>
-                              <p class="theme-item-page-rooms-table-price-note">* Discounts already
-                                <br/>included in price.
-                              </p>
-                            </td>
-                            <td>
-                              <a class="btn btn-primary-inverse btn-block">Book now</a>
-                              <p class="theme-item-page-rooms-table-booking-note">No booking or
-                                <br/>credit card fees!
-                              </p>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class="theme-item-page-rooms-table-type">
-                              <h5 class="theme-item-page-rooms-table-type-title">Deluxe King Room</h5>
-                              <img class="theme-item-page-rooms-table-type-img" src="./img/350x232.png" alt="Image Alternative text" title="Image Title"/>
-                              <ul class="theme-item-page-rooms-table-type-feature-list">
-                                <li>
-                                  <i class="fa fa-bed theme-item-page-rooms-table-type-feature-list-icon"></i>1 King bed
-                                </li>
-                                <li>
-                                  <i class="fa fa-arrows-h theme-item-page-rooms-table-type-feature-list-icon"></i>300 squre feet
-                                </li>
-                                <li>
-                                  <i class="fa fa-shower theme-item-page-rooms-table-type-feature-list-icon"></i>Private bathroom
-                                </li>
-                                <li>
-                                  <i class="fa fa-wifi theme-item-page-rooms-table-type-feature-list-icon"></i>Free Wifi
-                                </li>
-                              </ul>
-                            </td>
-                            <td>
-                              <ul class="theme-item-page-rooms-table-guests-count">
-                                <li>
-                                  <i class="fa fa-male"></i>
-                                </li>
-                                <li>
-                                  <i class="fa fa-male"></i>
-                                </li>
-                              </ul>
-                            </td>
-                            <td>
-                              <ul class="theme-item-page-rooms-table-options-list">
-                                <li>Non-refundable</li>
-                                <li>Special conditions,
-                                  <br/>pay when you stay
-                                </li>
-                                <li>Breakfast $30</li>
-                              </ul>
-                            </td>
-                            <td class="theme-item-page-rooms-table-price">
-                              <div>
-                                <div class="theme-item-page-rooms-table-price-night">
-                                  <p class="theme-item-page-rooms-table-price-sign">Per night</p>
-                                  <p class="theme-item-page-rooms-table-price-night-amount">$217</p>
-                                </div>
-                                <div class="theme-item-page-rooms-table-price-total">
-                                  <p class="theme-item-page-rooms-table-price-sign">Total price
-                                    <br/>for 5 nights
-                                  </p>
-                                  <p class="theme-item-page-rooms-table-price-total-amount">$1085</p>
-                                </div>
-                              </div>
-                              <p class="theme-item-page-rooms-table-price-note">* Discounts already
-                                <br/>included in price.
-                              </p>
-                            </td>
-                            <td>
-                              <a class="btn btn-primary-inverse btn-block">Book now</a>
-                              <p class="theme-item-page-rooms-table-booking-note">No booking or
-                                <br/>credit card fees!
-                              </p>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class="theme-item-page-rooms-table-type">
-                              <h5 class="theme-item-page-rooms-table-type-title">Junior Suite with King Size Bed</h5>
-                              <img class="theme-item-page-rooms-table-type-img" src="./img/350x232.png" alt="Image Alternative text" title="Image Title"/>
-                              <ul class="theme-item-page-rooms-table-type-feature-list">
-                                <li>
-                                  <i class="fa fa-bed theme-item-page-rooms-table-type-feature-list-icon"></i>2 King beds
-                                </li>
-                                <li>
-                                  <i class="fa fa-arrows-h theme-item-page-rooms-table-type-feature-list-icon"></i>320 squre feet
-                                </li>
-                                <li>
-                                  <i class="fa fa-shower theme-item-page-rooms-table-type-feature-list-icon"></i>Private bathroom
-                                </li>
-                                <li>
-                                  <i class="fa fa-wifi theme-item-page-rooms-table-type-feature-list-icon"></i>Free Wifi
-                                </li>
-                              </ul>
-                            </td>
-                            <td>
-                              <ul class="theme-item-page-rooms-table-guests-count">
-                                <li>
-                                  <i class="fa fa-male"></i>
-                                </li>
-                                <li>
-                                  <i class="fa fa-male"></i>
-                                </li>
-                                <li>
-                                  <i class="fa fa-male"></i>
-                                </li>
-                              </ul>
-                            </td>
-                            <td>
-                              <ul class="theme-item-page-rooms-table-options-list">
-                                <li>Non-refundable</li>
-                                <li>Special conditions,
-                                  <br/>pay when you stay
-                                </li>
-                                <li>Breakfast included</li>
-                                <li>
-                                  <b class="text-color-inverse">Last minute deal: save 35%</b>
-                                </li>
-                              </ul>
-                            </td>
-                            <td class="theme-item-page-rooms-table-price">
-                              <div>
-                                <div class="theme-item-page-rooms-table-price-night">
-                                  <p class="theme-item-page-rooms-table-price-sign">Per night</p>
-                                  <p class="theme-item-page-rooms-table-price-night-amount">$315</p>
-                                </div>
-                                <div class="theme-item-page-rooms-table-price-total">
-                                  <p class="theme-item-page-rooms-table-price-sign">Total price
-                                    <br/>for 5 nights
-                                  </p>
-                                  <p class="theme-item-page-rooms-table-price-total-amount">$1575</p>
-                                </div>
-                              </div>
-                              <p class="theme-item-page-rooms-table-price-note">* Discounts already
-                                <br/>included in price.
-                              </p>
-                            </td>
-                            <td>
-                              <a class="btn btn-primary-inverse btn-block">Book now</a>
-                              <p class="theme-item-page-rooms-table-booking-note">No booking or
-                                <br/>credit card fees!
-                              </p>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class="theme-item-page-rooms-table-type">
-                              <h5 class="theme-item-page-rooms-table-type-title">Suite with King Size Bed and Park View</h5>
-                              <img class="theme-item-page-rooms-table-type-img" src="jsp/img/350x232.png" alt="Image Alternative text" title="Image Title"/>
-                              <ul class="theme-item-page-rooms-table-type-feature-list">
-                                <li>
-                                  <i class="fa fa-bed theme-item-page-rooms-table-type-feature-list-icon"></i>2 King beds
-                                </li>
-                                <li>
-                                  <i class="fa fa-arrows-h theme-item-page-rooms-table-type-feature-list-icon"></i>400 squre feet
-                                </li>
-                                <li>
-                                  <i class="fa fa-shower theme-item-page-rooms-table-type-feature-list-icon"></i>2 Private bathrooms
-                                </li>
-                                <li>
-                                  <i class="fa fa-wifi theme-item-page-rooms-table-type-feature-list-icon"></i>Free Wifi
-                                </li>
-                              </ul>
-                            </td>
-                            <td>
-                              <ul class="theme-item-page-rooms-table-guests-count">
-                                <li>
-                                  <i class="fa fa-male"></i>
-                                </li>
-                                <li>
-                                  <i class="fa fa-male"></i>
-                                </li>
-                                <li>
-                                  <i class="fa fa-male"></i>
-                                </li>
-                                <li>
-                                  <i class="fa fa-male"></i>
-                                </li>
-                              </ul>
-                            </td>
-                            <td>
-                              <ul class="theme-item-page-rooms-table-options-list">
-                                <li>Free cancellation</li>
-                                <li>Special conditions,
-                                  <br/>pay when you stay
-                                </li>
-                                <li>Breakfast included</li>
-                              </ul>
-                            </td>
-                            <td class="theme-item-page-rooms-table-price">
-                              <div>
-                                <div class="theme-item-page-rooms-table-price-night">
-                                  <p class="theme-item-page-rooms-table-price-sign">Per night</p>
-                                  <p class="theme-item-page-rooms-table-price-night-amount">$485</p>
-                                </div>
-                                <div class="theme-item-page-rooms-table-price-total">
-                                  <p class="theme-item-page-rooms-table-price-sign">Total price
-                                    <br/>for 5 nights
-                                  </p>
-                                  <p class="theme-item-page-rooms-table-price-total-amount">$2425</p>
-                                </div>
-                              </div>
-                              <p class="theme-item-page-rooms-table-price-note">* Discounts already
-                                <br/>included in price.
-                              </p>
-                            </td>
-                            <td>
-                              <a class="btn btn-primary-inverse btn-block">Book now</a>
-                              <p class="theme-item-page-rooms-table-booking-note">No booking or
-                                <br/>credit card fees!
-                              </p>
                             </td>
                           </tr>
                         </tbody>
@@ -957,7 +701,6 @@
         </div>
       </div>
     </div>
-  
     <script src="js/jquery.js"></script>
     <script src="js/moment.js"></script>
     <script src="js/bootstrap.js"></script>

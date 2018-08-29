@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="dao.CampDao">
 
-<insert id="insertCamp" parameterType="camp">
+<insert id="insertCamp" parameterType="java.util.HashMap">
 
 	insert into camp values(
 	#{campId}, #{campName}, #{sellerId}, #{campPhone}, #{campAddr}, #{campOwner}, #{status}, #{joinDate}, #{stopDate}, #{latitude}, #{longitude}
@@ -13,9 +13,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 </insert>
 
-<select id="selectOne" parameterType="int" resultType="camp">
+<select id="selectOne" parameterType="int" resultType="java.util.HashMap">
 
-	select * from camp where campId=#{campId}
+	select c.campId, s.siteId, se.sellerId, c.campAddr, c.campName, s.campSiteName, p.file, c.latitude, c.longitude, s.campSiteStock, c.campPhone, s.busyWkndPrice as price from camp c join picture p join site s join facility f join seller se where c.campId = p.campId and c.campId = s.campId and c.campId = f.campId and s.siteId = p.siteId and c.sellerId = se.sellerId and c.campId = 5 group by s.siteId;
 
 </select>
 

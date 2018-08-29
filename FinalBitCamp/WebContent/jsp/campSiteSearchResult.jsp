@@ -114,7 +114,8 @@ $(document).ready(function(){
 	});			//정렬기준의 끝
 	
 	$(".theme-search-results-item-book").on('click', '.theme-search-results-item-price-btn', function(){
-		alert($(this).attr('id'));
+		var campId = $(this).attr('id');
+		location.href = "campDetailInfo.do?campId=" + campId;
 	})
 });
 </script>

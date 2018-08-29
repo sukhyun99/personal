@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -37,10 +38,19 @@ public class CampController {
 		return view;
 	}
 	
-	@RequestMapping("getSort.do")
-	public void getSort(HttpServletResponse resp, HttpServletRequest req) {
-		String json = req.getParameter("json");
-		System.out.println(json.toString());
+	@RequestMapping("campDetailInfo.do")
+	public ModelAndView campDetailInfo(@RequestParam(value="campId") int campId) {
+		List<Map<String, Object>> getCamp = cService.getCamp(campId);
+		double rate = (double) cService.getRate(campId).get("avg(rate)");
+		getCamp.get(0).put("rate", rate);
+		System.out.println(getCamp.toString());
+		Gson gson = new Gson();
+		String campDetail = gson.toJson(getCamp);
+		System.out.println(campDetail.toString());
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("campDetail", campDetail);
+		mav.setViewName("campDetailInfo");
+		return mav;
 	}
 	
 //	@RequestMapping("getRate.do")

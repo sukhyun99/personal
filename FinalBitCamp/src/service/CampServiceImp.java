@@ -28,7 +28,7 @@ public class CampServiceImp implements CampService{
 	}
 
 	@Override
-	public Camp getCamp(int campId) {
+	public List<Map<String, Object>> getCamp(int campId) {
 		return cDao.selectOne(campId);
 	}
 
@@ -91,8 +91,8 @@ public class CampServiceImp implements CampService{
 	@Override
 	public File attachFile(int campId) {
 		String path = "D:\\download\\bitCamp\\";
-		Picture p = cDao.selectPic(campId);
-		String fileName = p.getFile();
+		List<Picture> p = cDao.selectPic(campId);
+		String fileName = p.get(0).getFile();
 		File attachFile = new File(path+fileName);
 		return attachFile;
 	}
@@ -104,12 +104,16 @@ public class CampServiceImp implements CampService{
 
 	@Override
 	public int getSkip(int page) {
-		// TODO Auto-generated method stub
 		return (page - 1) * 5;
 	}
 
 	@Override
 	public Map<String, Object> getRate(int campId) {		
 		return cDao.selectCampRate(campId);
+	}
+
+	@Override
+	public List<Picture> getPic(int campId) {
+		return cDao.selectPic(campId);
 	}
 }

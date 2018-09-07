@@ -15,10 +15,29 @@
 <link rel="stylesheet" href="css/weather-icons.css" />
 <link rel="stylesheet" href="css/bootstrap.css" />
 <link rel="stylesheet" href="css/styles.css" />
+<style type="text/css">
+
+</style>
 <script type="text/javascript">
 $(document).ready(function(){
 	var csl = ${csl};
 	var sc = ${sc};
+	var mcl = ${mcl};
+	if(csl[0].userId!=null){
+		var userId = csl[0].userId;
+		$("#loginState").val(userId);
+	}
+	if($('#loginState').val()){
+		$('#login').text($('#loginState').val()+'님 로그아웃');
+		$('#login').attr('href', 'logout.do');
+	}
+	$('#login').click(function(e){
+		var text = $('#login').text();
+		if(text=='로그인'){
+			$('#loginModal').modal();	
+		}		
+	})
+	var userId = $("#loginState").val();
 	var cslArray = [];
 	for(var i=0; i<csl.length; i++){
 		cslArray.push(csl[i]);
@@ -35,6 +54,7 @@ $(document).ready(function(){
 		level : 12 //지도의 레벨(확대, 축소 정도)
 	};
 	var map = new daum.maps.Map(container, options); //지도 생성 및 객체 리턴
+	myCampList(mcl);
 	mapLoad(csl, map);
 	$("#next").click(function(){
 		sc.page = sc.page + 1;
@@ -51,6 +71,12 @@ $(document).ready(function(){
 			},
 			success: function(csl){
 				cslLoad(csl);
+				detail(sc);
+				$.each(csl[0].mcl, function(index, item){
+					mcl.push(item);
+				})
+				myCampList(mcl);
+				bookMark(userId);
 				$.each(csl, function(index, item){
 					cslArray.push(item);
 				});
@@ -79,6 +105,9 @@ $(document).ready(function(){
 				}
 			}
 			cslLoad(cslArray);
+			myCampList(mcl);
+			bookMark(userId);
+			detail(sc);
 			mapLoad(cslArray, map);
 		}		//인기순의 끝
 		else if($(this).text()=="낮은가격순"){
@@ -94,6 +123,9 @@ $(document).ready(function(){
 				}
 			}
 			cslLoad(cslArray);
+			myCampList(mcl);
+			bookMark(userId);
+			detail(sc);
 			mapLoad(cslArray, map);
 		}		//낮은가격순의 끝
 		else if($(this).text()=="높은가격순"){
@@ -109,14 +141,14 @@ $(document).ready(function(){
 				}
 			}
 			cslLoad(cslArray);
+			myCampList(mcl);
+			bookMark(userId);
+			detail(sc);
 			mapLoad(cslArray, map);
 		}		//높은가격순의 끝
 	});			//정렬기준의 끝
-	
-	$(".theme-search-results-item-book").on('click', '.theme-search-results-item-price-btn', function(){
-		var campId = $(this).attr('id');
-		location.href = "campDetailInfo.do?campId=" + campId;
-	})
+	bookMark(userId);
+	detail(sc);
 });
 </script>
 </head>
@@ -142,7 +174,10 @@ $(document).ready(function(){
 						<ul class="nav navbar-nav navbar-right">
 							<li class="nav-item "><a class="nav-link" href="#">내 캠핑장 등록</a></li>
 							<li class="nav-item"><a class="nav-link" href="#">고객센터</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">로그인</a></li>
+							<li class="nav-item">
+                    			<a class="nav-link" id="login" href="#" data-target="#loginModal">로그인</a>
+                    			<input type="hidden" id="loginState" value="${member.userId}">
+              				</li>
 						</ul>
 					</ul>
 				</div>
@@ -356,7 +391,77 @@ $(document).ready(function(){
 			</div>
 		</div>
 	</div>
+<!-- Modal -->
+<div class="modal fade" id="loginModal" role="dialog">
+ <div class="modal-dialog">
+    
+<!-- Modal content-->
+       <div class="modal-content">
+      	<div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h2 class="modal-title" style="font-weight : bold">로그인</h2>
+        </div>
+        <div class="modal-body">
+        	<div id="normal" class="tab-pane fade in active"><br>
+        		<form class="form-horizontal" action="memberLogin.do" method="post">
+        				<div class="form-group">
+        					<label for="inputEmail3" class="col-sm-3 control-label">아이디</label>
+    						<div class="col-sm-6">
+      						<input type="text" class="form-control" id="userId" name="userId" placeholder="아이디">
+      						</div>
+      					</div>
+      					<div class="form-group">
+    						<label for="inputPassword3" class="col-sm-3 control-label">비밀번호</label>
+   							<div class="col-sm-6">
+      						<input type="password" class="form-control" id="pw" name="pw" placeholder="비밀번호">
+   			 				</div>
+  						</div>
+  						<div class="form-group">
+    						<div class="col-sm-offset-3 col-sm-10">
+      							<div class="checkbox">
+       						 	<label>
+          						<input type="checkbox">로그인 유지
+        						</label>
+      							</div>
+    						</div>
+ 					 	</div>
+  						<div class="form-group">
+    						<div class="col-sm-offset-3 col-sm-6">
+      						<button type="submit" class="btn btn-primary btn-lg btn-block" >확인</button>
+   					 		</div>	
+        				</div>
+        				<div class="form-group">
+    						<div class="col-sm-offset-3 col-sm-6">
+      						<a href="https://kauth.kakao.com/oauth/authorize?client_id=1ac3e7706d2467a442f2585681668ea0&redirect_uri=http://localhost:8080/FinalBitCamp/kakaoLogin.do&response_type=code&scope=account_email" 
+							id="kakaoBtn"><img alt="" src="img/kakao.png" style="width : 270px; height: 46"></a>
+   					 		</div>	
+        				</div>
+        				<div class="form-group">
+    						<div class="col-sm-offset-3 col-sm-6">
+      						<a href="naverLogin.do" id="naverBtn"><img alt="" src="img/naver.PNG" style="width : 270px;"></a>
+   					 		</div>	
+        				</div><br>
+        				<div class="form-group">
+    						<div class="col-sm-offset-3 col-sm-6" >
+      						<a href="#" class="col-sm-8">아이디/비밀번호 찾기</a>
+      						<a href="#" class="col-sm-4 _p-0">회원가입</a>
+   					 		</div>	
+        				</div>
+        		</form>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+      
+ </div>
+</div>
+	<script src="js/mcl.js"></script>
+<!-- 	<script src="js/myCamp.js"></script> -->
 	<script src="js/main.js"></script>
+	<script src="js/detail.js"></script>
 	<script src="js/map.js"></script>
 	<script src="js/csl.js"></script>
 	<script src="js/jquery.js"></script>

@@ -16,6 +16,22 @@
     <link rel="stylesheet" href="css/weather-icons.css"/>
     <link rel="stylesheet" href="css/bootstrap.css"/>
     <link rel="stylesheet" href="css/styles.css"/>
+    <script type="text/javascript" >
+
+$(document).ready(function(){
+	if($('#loginState').val()){
+		$('#login').text($('#loginState').val()+'님 로그아웃');
+		$('#login').attr('href', 'logout.do');
+	}
+	
+	$('#login').click(function(e){
+		var text = $('#login').text();
+		if(text=='로그인'){
+			$('#loginModal').modal();	
+		}		
+	})
+})
+</script>
 </head>
 <body>
  <nav class="navbar navbar-default navbar-inverse navbar-theme navbar-theme-abs navbar-theme-transparent navbar-theme-border" id="main-nav">
@@ -30,8 +46,6 @@
             </button>
             <a class="navbar-brand" href="index.html">
              <i class="fa fa-compass  fa-2x "></i>
-            
-             
             </a>
           </div>
           <div class="collapse navbar-collapse" id="navbar-main">
@@ -40,13 +54,14 @@
             <ul class="nav navbar-nav navbar-right">
               <li class="nav-item">
                <a class="nav-link" href="#">내 캠핑장 등록</a>     
-            </li>
-             <li class="nav-item">
+              </li>
+              <li class="nav-item">
                     <a class="nav-link" href="#">고객센터</a>
-                    </li>
-            <li class="nav-item">
-                    <a class="nav-link" href="#" data-toggle="modal" data-target="#myModal">로그인</a>
-                    </li>
+              </li>
+              <li class="nav-item">
+                    <a class="nav-link" id="login" href="#" data-target="#loginModal">로그인</a>
+                    <input type="hidden" id="loginState" value="${member.userId}">
+              </li>
             </ul>
           </div>
         </div>
@@ -514,11 +529,11 @@
         </div>
       </div>
     </div>
-    <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
+<!-- Modal -->
+<div class="modal fade" id="loginModal" role="dialog">
+ <div class="modal-dialog">
     
-      <!-- Modal content-->
+<!-- Modal content-->
        <div class="modal-content">
       	<div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -526,50 +541,51 @@
         </div>
         <div class="modal-body">
         	<div id="normal" class="tab-pane fade in active"><br>
-        		<form class="form-horizontal" action="" method="post">
+        		<form class="form-horizontal" action="memberLogin.do" method="post">
         				<div class="form-group">
         					<label for="inputEmail3" class="col-sm-3 control-label">아이디</label>
     						<div class="col-sm-6">
-      						<input type="text" class="form-control" id="id" placeholder="아이디">
+      						<input type="text" class="form-control" id="userId" name="userId" placeholder="아이디">
       						</div>
       					</div>
       					<div class="form-group">
     						<label for="inputPassword3" class="col-sm-3 control-label">비밀번호</label>
    							<div class="col-sm-6">
-      						<input type="password" class="form-control" id="inputPassword3" placeholder="비밀번호">
+      						<input type="password" class="form-control" id="pw" name="pw" placeholder="비밀번호">
    			 				</div>
   						</div>
-  						<div class="form-group">
-    						<div class="col-sm-offset-3 col-sm-10">
-      							<div class="checkbox">
-       						 	<label>
-          						<input type="checkbox">로그인 유지
-        						</label>
-      							</div>
-    						</div>
- 					 	</div>
+<!--   						<div class="form-group"> -->
+<!--     						<div class="col-sm-offset-3 col-sm-10"> -->
+<!--       							<div class="checkbox"> -->
+<!--        						 	<label> -->
+<!--           						<input type="checkbox">로그인 유지 -->
+<!--         						</label> -->
+<!--       							</div> -->
+<!--     						</div> -->
+<!--  					 	</div> -->
   						<div class="form-group">
     						<div class="col-sm-offset-3 col-sm-6">
-      						<button type="submit" class="btn btn-primary btn-lg btn-block">확인</button>
+      						<button type="submit" class="btn btn-primary btn-lg btn-block" >확인</button>
    					 		</div>	
         				</div>
         				<div class="form-group">
     						<div class="col-sm-offset-3 col-sm-6">
-      						<a href="#" id="kakaoBtn"><img alt="" src="img/카카오.png" style="width : 270px; height: 46"></a>
+      						<a href="https://kauth.kakao.com/oauth/authorize?client_id=1ac3e7706d2467a442f2585681668ea0&redirect_uri=http://localhost:8080/FinalBitCamp/kakaoLogin.do&response_type=code&scope=account_email" 
+							id="kakaoBtn"><img alt="" src="img/kakao.png" style="width : 270px; height: 46"></a>
    					 		</div>	
         				</div>
         				<div class="form-group">
     						<div class="col-sm-offset-3 col-sm-6">
-      						<a href="#" id="naverBtn"><img alt="" src="img/네이버.png" style="width : 270px;"></a>
+      						<a href="naverLogin.do" id="naverBtn"><img alt="" src="img/naver.PNG" style="width : 270px;"></a>
    					 		</div>	
         				</div><br>
-        						<div class="form-group">
+        				<div class="form-group">
     						<div class="col-sm-offset-3 col-sm-6" >
       						<a href="#" class="col-sm-8">아이디/비밀번호 찾기</a>
-      						<a href="#" class="col-sm-4 _p-0">회원가입</a>
+      						<a href="memeberJoinTerms.do" class="col-sm-4 _p-0">회원가입</a>
    					 		</div>	
         				</div>
-        		</form>로그인폼
+        		</form>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
@@ -578,8 +594,8 @@
     </div>
   </div>
       
-    </div>
-  </div>
+ </div>
+</div>
   	<script src="js/main.js"></script>
     <script src="js/jquery.js"></script>
     <script src="js/moment.js"></script>

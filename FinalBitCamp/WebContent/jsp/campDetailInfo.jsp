@@ -13,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=68583abf1012481a1d352ae8faf71f26"></script>
     <link rel="stylesheet" href="css/font-awesome.css"/>
     <link rel="stylesheet" href="css/lineicons.css"/>
     <link rel="stylesheet" href="css/weather-icons.css"/>
@@ -27,12 +28,25 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	var campDetail = ${campDetail};
+	var stockList = ${stockList};
+	var campReview = ${campReview};
+	if(campDetail[0].userId!=null){
+		var userId = campDetail[0].userId;
+		$("#loginState").val(userId);
+	}
+	if($('#loginState').val()){
+		$('#login').text($('#loginState').val()+'님 로그아웃');
+		$('#login').attr('href', 'logout.do');
+	}
+	
+	$('#login').click(function(e){
+		var text = $('#login').text();
+		if(text=='로그인'){
+			$('#loginModal').modal();	
+		}		
+	})
 	var length = campDetail.length;
 	var pic = '';
-	$(".theme-item-page-header-title").text(campDetail[0].campName);
-	$(".campAddr").text(campDetail[0].campAddr);
-	$(".campId").val(campDetail[0].campId);
-	$(".sellerId").val(campDetail[0].sellerId);
 	$.each(campDetail, function(index, item){
 		if(index<length-1){
 			pic = pic + "./img/" + item.file + ","
@@ -44,6 +58,21 @@ $(document).ready(function(){
 	$(".magnific-gallery-link").attr('data-items', pic);
 	var backPic = "background-image:url(./img/" + campDetail[0].file + ");"
 	$(".theme-hero-area-bg").attr('style', backPic);
+	$(".theme-item-page-header-title").text(campDetail[0].campName);
+	$(".campAddr").text(campDetail[0].campAddr);
+	detailLoad(campDetail, stockList);
+	$("#campContent").text(campDetail[0].content);
+	tapMap(campDetail);
+// 	$(".google-map").attr('data-lat', campDetail[0].latitude);
+// 	$(".google-map").attr('data-lng', campDetail[0].longitude);
+// 	alert($('.google-map').length)
+	
+	$("#rate").text(campDetail[0].rate);
+	$(".theme-search-area-submit-no-border").click(function(){
+		detailSearch(campDetail);
+	})
+	reviewLoad(campReview);
+	facilityLoad(campDetail);
 })
 </script>
 </head>
@@ -69,7 +98,10 @@ $(document).ready(function(){
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="">내 캠핑장 등록</a></li>
                 <li><a href="">고객센터</a></li>
-                <li><a href="">로그인</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" id="login" href="#" data-target="#loginModal">로그인</a>
+                    <input type="hidden" id="loginState" value="${member.userId}">
+              	</li>
             </ul>
           </div>
           
@@ -97,7 +129,7 @@ $(document).ready(function(){
 	                </span>
 	            </li>
               </ul>
-              <a class="btn _tt-uc _ls-0 _mt-30 _p-15 magnific-gallery-link btn-default btn-white" data-items="./img/camp01.jpg,./img/camp02.jpg,./img/camp03.jpg" href="#">
+              <a class="btn _tt-uc _ls-0 _mt-30 _p-15 magnific-gallery-link btn-default btn-white" data-items="" href="#">
                 <i class="btn-icon fa fa-camera"></i>사진보기
               </a>
             </div>
@@ -143,47 +175,6 @@ $(document).ready(function(){
                   	<input type="hidden" name="campId" value="111-222">
                       <table class="table">
                         <tbody>
-                          <tr>
-                            <td class="theme-item-page-rooms-table-type" name="siteId" value="${siteId }">
-                              <h5 class="theme-item-page-rooms-table-type-title">사이트 A</h5>
-                              <img class="theme-item-page-rooms-table-type-img" src="./img/350x232.png" alt="Image Alternative text" title="Image Title"/>
-	                              <ul class="theme-item-page-rooms-table-type-feature-list">
-	                                <li>
-	                                  <span class="camp-season1" value="성수기">성</span>
-	                                  <span>1박 40,000원</span>
-	                                </li>
-	                                
-	                              </ul>
-                            </td>
-                            <td>
-                              <ul class="theme-item-page-rooms-table-guests-count">
-                                <li>
-                                  <i class="fa fa-male"></i>
-                                </li>
-                                <li>
-                                  <i class="fa fa-male"></i>
-                                </li>
-                              </ul>
-                            </td>
-                            <td>
-                              <ul class="theme-item-page-rooms-table-options-list">
-                                <li><span class="campSiteStock">${campSiteStock }</span>자리 가능</li>
-                              </ul>
-                            </td>
-                            <td class="theme-item-page-rooms-table-price">
-                              <div>
-                                <div class="theme-item-page-rooms-table-price-night">
-                                  <p class="theme-item-page-rooms-table-price-sign">1박</p>
-                                  <p class="theme-item-page-rooms-table-price-night-amount">
-                                  	<i class="fas fa-won-sign"></i>40,000
-                                  </p>
-                                </div>
-                              </div>
-                            </td>
-                            <td>
-                              <a class="btn btn-primary-inverse btn-block btn-booking-form">예약</a>
-                            </td>
-                          </tr>
                         </tbody>
                       </table>
                     </div>
@@ -192,15 +183,12 @@ $(document).ready(function(){
                   <!-- 캠핑장 소개 탭 -->
                   <div class="tab-pane" id="HotelPageTabs-2" role="tab-panel">
                     <div class="theme-item-page-desc">
-                      <p>This Manhattan hotel is located across the street from Madison Square Garden and Penn Station. The hotel offers access to the adjacent fitness club which includes a gym and a tour desk with ticket services.</p>
-                      <p>Each air-conditioned room at the Hotel Pennsylvania provides cable TV. Guests also have access to a work desk, alarm clock, black-out drapes, iron and hairdryer in every room.</p>
-                      <p>The Pennsylvania Hotel includes a 24-hour coffee shop and a restaurant. Guests can make transportation reservations and acquire theater tickets at the hotel. Guests will also have access to a safety deposit desk at the front desk, any time of the day.</p>
-                      <p>Times Square and the Museum of Modern Art are less than a 15-minute walk from Hotel Penn. Guests are also one block from Macy's and 2 blocks from the Empire State Building.</p>
-                      <p>This is our guests' favourite part of New York, according to independent reviews. This area is also great for shopping, with popular brands nearby: H&M, Nike, Ralph Lauren.</p>
+                      <p id="campContent" ></p>
                     </div>
                   </div>
                   <div class="tab-pane" id="HotelPageTabs-3" role="tab-panel">
-                    <div class="theme-item-page-map google-map" data-lat="40.7483624" data-lng="-73.9900896"></div>
+                    <div id="daum" class="theme-item-page-map" style="width: 740px; height: 300px;"></div>
+<!--                     <div class="theme-item-page-map google-map" data-lat=" " data-lng=" ">지도</div> -->
                   </div>
                   <div class="tab-pane" id="HotelPageTabs-4" role="tab-panel">
                     <div class="theme-reviews">
@@ -209,10 +197,10 @@ $(document).ready(function(){
                           <div class="col-md-3 ">
                             <div class="theme-reviews-score-header">
                               <h5 class="theme-reviews-score-title">Review score</h5>
-                              <p class="theme-reviews-score-subtitle">Based on 2889 reviews</p>
+<!--                               <p class="theme-reviews-score-subtitle">Based on 2889 reviews</p> -->
                             </div>
                             <div class="theme-reviews-score-total">
-                              <p>7.4</p>
+                              <p id="rate">7.4</p>
                             </div>
                           </div>
                           <div class="col-md-9 ">
@@ -221,7 +209,7 @@ $(document).ready(function(){
                                 <div class="col-md-6 ">
                                   <div class="theme-reviews-score-item">
                                     <div class="theme-reviews-score-item-header">
-                                      <p class="theme-reviews-score-item-title">Breakfast</p>
+                                      <p class="theme-reviews-score-item-title">친절도</p>
                                       <p class="theme-reviews-score-item-num">5.6</p>
                                     </div>
                                     <div class="theme-reviews-score-item-bar">
@@ -230,7 +218,7 @@ $(document).ready(function(){
                                   </div>
                                   <div class="theme-reviews-score-item">
                                     <div class="theme-reviews-score-item-header">
-                                      <p class="theme-reviews-score-item-title">Clearness</p>
+                                      <p class="theme-reviews-score-item-title">청결함</p>
                                       <p class="theme-reviews-score-item-num">6.4</p>
                                     </div>
                                     <div class="theme-reviews-score-item-bar">
@@ -239,7 +227,7 @@ $(document).ready(function(){
                                   </div>
                                   <div class="theme-reviews-score-item">
                                     <div class="theme-reviews-score-item-header">
-                                      <p class="theme-reviews-score-item-title">Comfort</p>
+                                      <p class="theme-reviews-score-item-title">시설</p>
                                       <p class="theme-reviews-score-item-num">7.5</p>
                                     </div>
                                     <div class="theme-reviews-score-item-bar">
@@ -248,49 +236,11 @@ $(document).ready(function(){
                                   </div>
                                   <div class="theme-reviews-score-item">
                                     <div class="theme-reviews-score-item-header">
-                                      <p class="theme-reviews-score-item-title">Location</p>
+                                      <p class="theme-reviews-score-item-title">안전성</p>
                                       <p class="theme-reviews-score-item-num">7.5</p>
                                     </div>
                                     <div class="theme-reviews-score-item-bar">
                                       <div style="width:75%;"></div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="col-md-6 ">
-                                  <div class="theme-reviews-score-item">
-                                    <div class="theme-reviews-score-item-header">
-                                      <p class="theme-reviews-score-item-title">Facilities</p>
-                                      <p class="theme-reviews-score-item-num">8.2</p>
-                                    </div>
-                                    <div class="theme-reviews-score-item-bar">
-                                      <div style="width:82%;"></div>
-                                    </div>
-                                  </div>
-                                  <div class="theme-reviews-score-item">
-                                    <div class="theme-reviews-score-item-header">
-                                      <p class="theme-reviews-score-item-title">Staff</p>
-                                      <p class="theme-reviews-score-item-num">8.2</p>
-                                    </div>
-                                    <div class="theme-reviews-score-item-bar">
-                                      <div style="width:82%;"></div>
-                                    </div>
-                                  </div>
-                                  <div class="theme-reviews-score-item">
-                                    <div class="theme-reviews-score-item-header">
-                                      <p class="theme-reviews-score-item-title">Value for money</p>
-                                      <p class="theme-reviews-score-item-num">8.7</p>
-                                    </div>
-                                    <div class="theme-reviews-score-item-bar">
-                                      <div style="width:87%;"></div>
-                                    </div>
-                                  </div>
-                                  <div class="theme-reviews-score-item">
-                                    <div class="theme-reviews-score-item-header">
-                                      <p class="theme-reviews-score-item-title">Free WiFi</p>
-                                      <p class="theme-reviews-score-item-num">6.7</p>
-                                    </div>
-                                    <div class="theme-reviews-score-item-bar">
-                                      <div style="width:67%;"></div>
                                     </div>
                                   </div>
                                 </div>
@@ -300,213 +250,19 @@ $(document).ready(function(){
                         </div>
                       </div>
                       <div class="theme-reviews-list">
-                        <article class="theme-reviews-item">
-                          <div class="row" data-gutter="10">
-                            <div class="col-md-3 ">
-                              <div class="theme-reviews-item-info">
-                                <img class="theme-reviews-item-avatar" src="./img/70x70.png" alt="Image Alternative text" title="Image Title"/>
-                                <p class="theme-reviews-item-date">Reviewed Thu, Jun 21</p>
-                                <p class="theme-reviews-item-author">by Olivia Slater</p>
-                              </div>
-                            </div>
-                            <div class="col-md-9 ">
-                              <div class="theme-reviews-rating">
-                                <div class="theme-reviews-rating-header">
-                                  <span class="theme-reviews-rating-num">8.7</span>
-                                  <span class="theme-reviews-rating-title">Excellent</span>
-                                </div>
-                                <div class="theme-reviews-rating-bar">
-                                  <div style="width:87%;"></div>
-                                </div>
-                              </div>
-                              <div class="theme-reviews-item-body">
-                                <p class="theme-reviews-item-text">Natoque lectus ac diam primis curae et lacus fermentum dis nulla torquent et dis faucibus sociis cum rutrum donec potenti</p>
-                              </div>
-                            </div>
-                          </div>
-                        </article>
-                        <article class="theme-reviews-item">
-                          <div class="row" data-gutter="10">
-                            <div class="col-md-3 ">
-                              <div class="theme-reviews-item-info">
-                                <img class="theme-reviews-item-avatar" src="./img/70x70.png" alt="Image Alternative text" title="Image Title"/>
-                                <p class="theme-reviews-item-date">Reviewed Sun, Jun 17</p>
-                                <p class="theme-reviews-item-author">by Leah Kerr</p>
-                              </div>
-                            </div>
-                            <div class="col-md-9 ">
-                              <div class="theme-reviews-rating">
-                                <div class="theme-reviews-rating-header">
-                                  <span class="theme-reviews-rating-num">5.1</span>
-                                  <span class="theme-reviews-rating-title">Okay</span>
-                                </div>
-                                <div class="theme-reviews-rating-bar">
-                                  <div style="width:51%;"></div>
-                                </div>
-                              </div>
-                              <div class="theme-reviews-item-body">
-                                <p class="theme-reviews-item-text">Imperdiet ipsum aliquet fames proin morbi sed magnis at luctus volutpat purus lacinia ultrices quam natoque lobortis ornare vulputate egestas suscipit enim</p>
-                              </div>
-                            </div>
-                          </div>
-                        </article>
-                        <article class="theme-reviews-item">
-                          <div class="row" data-gutter="10">
-                            <div class="col-md-3 ">
-                              <div class="theme-reviews-item-info">
-                                <img class="theme-reviews-item-avatar" src="./img/70x70.png" alt="Image Alternative text" title="Image Title"/>
-                                <p class="theme-reviews-item-date">Reviewed Sat, Jun 16</p>
-                                <p class="theme-reviews-item-author">by Joe Smith</p>
-                              </div>
-                            </div>
-                            <div class="col-md-9">
-                              <div class="theme-reviews-rating">
-                                <div class="theme-reviews-rating-header">
-                                  <span class="theme-reviews-rating-num">5.9</span>
-                                  <span class="theme-reviews-rating-title">Okay</span>
-                                </div>
-                                <div class="theme-reviews-rating-bar">
-                                  <div style="width:59%;"></div>
-                                </div>
-                              </div>
-                              <div class="theme-reviews-item-body">
-                                <p class="theme-reviews-item-text">Aptent quis dictumst molestie purus urna velit per phasellus molestie cras feugiat mi hendrerit dictum rutrum magna aliquam malesuada eget lacinia molestie risus</p>
-                              </div>
-                            </div>
-                          </div>
-                        </article>
-                        <div class="row">
-                          <div class="col-md-9 col-md-offset-3">
-                            <a class="theme-reviews-more" href="#">&#x2b; More Reviews</a>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
                   <div class="tab-pane" id="HotelPageTabs-5" role="tab-panel">
                     <div class="theme-item-page-facilities">
                       <div class="row">
-                        <div class="col-md-3 ">
-                          <div class="theme-item-page-facilities-item">
-                            <i class="fa fa-shower theme-item-page-facilities-item-icon"></i>
-                            <h5 class="theme-item-page-facilities-item-title">Bathroom</h5>
-                            <ul class="theme-item-page-facilities-item-list">
-                              <li>Toilet paper</li>
-                              <li>Linen</li>
-                              <li>Towels</li>
-                              <li>Toilet</li>
-                              <li>Free toiletries</li>
-                              <li>Hairdryer</li>
-                            </ul>
-                          </div>
-                          <div class="theme-item-page-facilities-item">
-                            <i class="fa fa-heart theme-item-page-facilities-item-icon"></i>
-                            <h5 class="theme-item-page-facilities-item-title">Pool and wellness</h5>
-                            <ul class="theme-item-page-facilities-item-list">
-                              <li>Massage</li>
-                              <li>Fitness centre</li>
-                              <li>Sauna</li>
-                            </ul>
-                          </div>
-                          <div class="theme-item-page-facilities-item">
-                            <i class="fa fa-glass theme-item-page-facilities-item-icon"></i>
-                            <h5 class="theme-item-page-facilities-item-title">Food and Drink</h5>
-                            <ul class="theme-item-page-facilities-item-list">
-                              <li>Breakfast in the room</li>
-                              <li>Bar</li>
-                              <li>Restaurant</li>
-                              <li>Tea/Coffee maker</li>
-                            </ul>
-                          </div>
+                        <div class="col-md-3 " id="facility1">
                         </div>
-                        <div class="col-md-3 ">
-                          <div class="theme-item-page-facilities-item">
-                            <i class="fa fa-wifi theme-item-page-facilities-item-icon"></i>
-                            <h5 class="theme-item-page-facilities-item-title">Internet</h5>
-                            <p class="theme-item-page-facilities-item-body">WiFi is available in all areas and costs USD 16.95 per 24 hours.</p>
-                          </div>
-                          <div class="theme-item-page-facilities-item">
-                            <i class="fa fa-car theme-item-page-facilities-item-icon"></i>
-                            <h5 class="theme-item-page-facilities-item-title">Parking</h5>
-                            <p class="theme-item-page-facilities-item-body">Private parking is possible on site (reservation is not needed) and costs USD 60 per day.</p>
-                          </div>
-                          <div class="theme-item-page-facilities-item">
-                            <i class="fa fa-users theme-item-page-facilities-item-icon"></i>
-                            <h5 class="theme-item-page-facilities-item-title">Reception services</h5>
-                            <ul class="theme-item-page-facilities-item-list">
-                              <li>Concierge service</li>
-                              <li>ATM/cash machine on site</li>
-                              <li>Luggage storage</li>
-                              <li>Ticket service</li>
-                              <li>Tour desk</li>
-                              <li>Currency excharge</li>
-                              <li>Express check-in/check-out</li>
-                              <li>24-hour front desk</li>
-                            </ul>
-                          </div>
+                        <div class="col-md-3 " id="facility2">
                         </div>
-                        <div class="col-md-3 ">
-                          <div class="theme-item-page-facilities-item">
-                            <i class="fa fa-tint theme-item-page-facilities-item-icon"></i>
-                            <h5 class="theme-item-page-facilities-item-title">Cleaning services</h5>
-                            <ul class="theme-item-page-facilities-item-list">
-                              <li>Daily maid service</li>
-                              <li>Shoeshine</li>
-                              <li>Ironing service</li>
-                              <li>Dry cleaning</li>
-                              <li>Laundry</li>
-                            </ul>
-                          </div>
-                          <div class="theme-item-page-facilities-item">
-                            <i class="fa fa-handshake-o theme-item-page-facilities-item-icon"></i>
-                            <h5 class="theme-item-page-facilities-item-title">Business facilities</h5>
-                            <ul class="theme-item-page-facilities-item-list">
-                              <li>Fax/photocopynig</li>
-                              <li>Buness centre</li>
-                              <li>Meeting/banquet facilities</li>
-                            </ul>
-                          </div>
-                          <div class="theme-item-page-facilities-item">
-                            <i class="fa fa-laptop theme-item-page-facilities-item-icon"></i>
-                            <h5 class="theme-item-page-facilities-item-title">Media and technology</h5>
-                            <ul class="theme-item-page-facilities-item-list">
-                              <li>iPod dock</li>
-                              <li>Cable channels</li>
-                              <li>Radio</li>
-                              <li>Telephone</li>
-                              <li>TV</li>
-                            </ul>
-                          </div>
+                        <div class="col-md-3 " id="facility3">
                         </div>
-                        <div class="col-md-3 ">
-                          <div class="theme-item-page-facilities-item">
-                            <i class="fa fa-info-circle theme-item-page-facilities-item-icon"></i>
-                            <h5 class="theme-item-page-facilities-item-title">General</h5>
-                            <ul class="theme-item-page-facilities-item-list">
-                              <li>Vending machine</li>
-                              <li>Air conditioning</li>
-                              <li>Wake-up service</li>
-                              <li>Heating</li>
-                              <li>Laptop safe</li>
-                              <li>Safety deposit box</li>
-                              <li>Lift</li>
-                              <li>Family rooms</li>
-                              <li>Facilities for disabled guests</li>
-                              <li>Non-smoking rooms</li>
-                              <li>Iron</li>
-                              <li>Newspapers</li>
-                            </ul>
-                          </div>
-                          <div class="theme-item-page-facilities-item">
-                            <i class="fa fa-globe theme-item-page-facilities-item-icon"></i>
-                            <h5 class="theme-item-page-facilities-item-title">Languages spoken</h5>
-                            <ul class="theme-item-page-facilities-item-list">
-                              <li>Italian</li>
-                              <li>French</li>
-                              <li>Spanish</li>
-                              <li>English</li>
-                            </ul>
-                          </div>
+                        <div class="col-md-3 " id="facility4">
                         </div>
                       </div>
                     </div>
@@ -701,6 +457,78 @@ $(document).ready(function(){
         </div>
       </div>
     </div>
+    <!-- Modal -->
+<div class="modal fade" id="loginModal" role="dialog">
+ <div class="modal-dialog">
+    
+<!-- Modal content-->
+       <div class="modal-content">
+      	<div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h2 class="modal-title" style="font-weight : bold">로그인</h2>
+        </div>
+        <div class="modal-body">
+        	<div id="normal" class="tab-pane fade in active"><br>
+        		<form class="form-horizontal" action="memberLogin.do" method="post">
+        				<div class="form-group">
+        					<label for="inputEmail3" class="col-sm-3 control-label">아이디</label>
+    						<div class="col-sm-6">
+      						<input type="text" class="form-control" id="userId" name="userId" placeholder="아이디">
+      						</div>
+      					</div>
+      					<div class="form-group">
+    						<label for="inputPassword3" class="col-sm-3 control-label">비밀번호</label>
+   							<div class="col-sm-6">
+      						<input type="password" class="form-control" id="pw" name="pw" placeholder="비밀번호">
+   			 				</div>
+  						</div>
+  						<div class="form-group">
+    						<div class="col-sm-offset-3 col-sm-10">
+      							<div class="checkbox">
+       						 	<label>
+          						<input type="checkbox">로그인 유지
+        						</label>
+      							</div>
+    						</div>
+ 					 	</div>
+  						<div class="form-group">
+    						<div class="col-sm-offset-3 col-sm-6">
+      						<button type="submit" class="btn btn-primary btn-lg btn-block" >확인</button>
+   					 		</div>	
+        				</div>
+        				<div class="form-group">
+    						<div class="col-sm-offset-3 col-sm-6">
+      						<a href="https://kauth.kakao.com/oauth/authorize?client_id=1ac3e7706d2467a442f2585681668ea0&redirect_uri=http://localhost:8080/FinalBitCamp/kakaoLogin.do&response_type=code&scope=account_email" 
+							id="kakaoBtn"><img alt="" src="img/kakao.png" style="width : 270px; height: 46"></a>
+   					 		</div>	
+        				</div>
+        				<div class="form-group">
+    						<div class="col-sm-offset-3 col-sm-6">
+      						<a href="naverLogin.do" id="naverBtn"><img alt="" src="img/naver.PNG" style="width : 270px;"></a>
+   					 		</div>	
+        				</div><br>
+        				<div class="form-group">
+    						<div class="col-sm-offset-3 col-sm-6" >
+      						<a href="#" class="col-sm-8">아이디/비밀번호 찾기</a>
+      						<a href="#" class="col-sm-4 _p-0">회원가입</a>
+   					 		</div>	
+        				</div>
+        		</form>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+      
+ </div>
+</div>
+    <script src="js/facility.js"></script>
+    <script src="js/review.js"></script>
+    <script src="js/tapMap.js"></script>
+    <script src="js/campDetailSearch.js"></script>
+    <script src="js/campDetail.js"></script>
     <script src="js/jquery.js"></script>
     <script src="js/moment.js"></script>
     <script src="js/bootstrap.js"></script>

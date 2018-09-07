@@ -22,11 +22,11 @@ $(document).ready(function(){
     			var maxMonth = date.getMonth()+4;				
     			date.setMonth(maxMonth);
     			var start = $(".datePickerStart").val();
-        		var splitStart = start.split('-');    		
+        		var splitStart = start.split('-');
         		var chkinDay = splitStart[3];	//체크인 요일
         		var chkIn = splitStart[0]+splitStart[1]+splitStart[2];	//체크인 날짜
         		var end = $(".datePickerEnd").val();
-        		var splitEnd = end.split('-');    		
+        		var splitEnd = end.split('-');
         		var chkOut = splitEnd[0]+splitEnd[1]+splitEnd[2];	//체크아웃 날짜
         		var chkinDate = new Date(splitStart[0], splitStart[1], splitStart[2]);
         		var chkoutDate = new Date(splitEnd[0], splitEnd[1], splitEnd[2]);

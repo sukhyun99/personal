@@ -10,19 +10,15 @@
 <title>Insert title here</title>
 <script type="text/javascript">
 $(document).ready(function(){
-	$("#btn").on('click','li',function (){
-	    alert($(this).text());
+	$(".div").click(function (){
+	    $(".div").css('color', '#0093d2');
 	});
 })
 </script>
 </head>
 <body>
-<div class="div">
-	<button id="btn">button</button>
-	<div class="aaa"></div>
-	<div class="aaa"></div>
-	<div class="aaa"></div>
-	<div class="aaa"></div>
-</div>
+<h1 class="div" style="color:#8c8c8c;">
+	hello
+</h1>
 </body>
 </html>

@@ -12,9 +12,10 @@
         <property name="suffix" value=".jsp"></property>
     </bean>
     
-    <bean
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
-		id="multipartResolver">
+    <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+	</bean>
+	
+	<bean id="naverLoginBO" class="service.NaverLoginBO">
 	</bean>
 
 </beans>

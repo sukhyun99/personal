@@ -8,10 +8,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <insert id="insertMember" parameterType="member">
 
 	insert into member values(
-	#{userId}, #{pw}, #{name}, #{phone}, #{email}, #{addr}, #{post}, #{admin}, #{joinDate}, 0
+	#{userId}, #{pw}, #{name}, #{phone}, #{email}, #{addr}, #{post}, #{admin}, #{joinDate}, #{type}
 	)
 
 </insert>
+
+<insert id="insertMemberSns" parameterType="Member">
+
+		insert into member values (#{userId}, null, #{name}, null, #{email},
+		null, null, 0, curdate(), #{type})
+		
+</insert>
+
+<select id="selectMember" parameterType="String" resultType="Member">
+
+		select * from member where userId = #{userId}
+		
+</select>
 
 <select id="selectOne" parameterType="int" resultType="member">
 

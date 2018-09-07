@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Date;
+
 public class Member {
 
 	String userId;
@@ -8,10 +10,17 @@ public class Member {
 	String phone;
 	String email;
 	String addr;
-	int post;
+	String post;
 	boolean admin;
-	int joinDate;
+	Date joinDate;
+	int type;
 	
+	public int getType() {
+		return type;
+	}
+	public void setType(int type) {
+		this.type = type;
+	}
 	public String getUserId() {
 		return userId;
 	}
@@ -48,10 +57,10 @@ public class Member {
 	public void setAddr(String addr) {
 		this.addr = addr;
 	}
-	public int getPost() {
+	public String getPost() {
 		return post;
 	}
-	public void setPost(int post) {
+	public void setPost(String post) {
 		this.post = post;
 	}
 	public boolean isAdmin() {
@@ -60,16 +69,17 @@ public class Member {
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
 	}
-	public int getJoinDate() {
+	public Date getJoinDate() {
 		return joinDate;
 	}
-	public void setJoinDate(int joinDate) {
+	public void setJoinDate(Date joinDate) {
 		this.joinDate = joinDate;
 	}
 	
 	@Override
 	public String toString() {
 		return "Member [userId=" + userId + ", pw=" + pw + ", name=" + name + ", phone=" + phone + ", email=" + email
-				+ ", addr=" + addr + ", post=" + post + ", admin=" + admin + ", joinDate=" + joinDate + "]";
+				+ ", addr=" + addr + ", post=" + post + ", admin=" + admin + ", joinDate=" + joinDate + ", type=" + type
+				+ "]";
 	}
 }

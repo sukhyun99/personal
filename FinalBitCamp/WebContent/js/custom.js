@@ -14,7 +14,7 @@ $(document).ready(function(){
     $('.ws-action').windowScrollAction();
     checkboxes();
     afternavHeight();
-    activeBookmark();
+//    activeBookmark();
     magnificLightbox();
     priceSlider();
     BSTabsActions();

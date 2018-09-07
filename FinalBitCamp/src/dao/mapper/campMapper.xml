@@ -13,9 +13,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 </insert>
 
-<select id="selectOne" parameterType="int" resultType="java.util.HashMap">
+<select id="selectOne" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 
-	select c.campId, s.siteId, se.sellerId, c.campAddr, c.campName, s.campSiteName, p.file, c.latitude, c.longitude, s.campSiteStock, c.campPhone, s.busyWkndPrice as price from camp c join picture p join site s join facility f join seller se where c.campId = p.campId and c.campId = s.campId and c.campId = f.campId and s.siteId = p.siteId and c.sellerId = se.sellerId and c.campId = 5 group by s.siteId;
+	<if test="type==0">
+	select f.campToilet, f.campShower, f.campElect, f.campCaravan, f.campGlamping, f.campPlayground, f.campFood, c.content, c.campId, s.siteId, se.sellerId, c.campAddr, c.campName, s.campSiteName, s.campPerson, p.file, c.latitude, c.longitude, s.campSiteStock, c.campPhone, s.busyWkndPrice as price from camp c join picture p join site s join facility f join seller se where c.campId = p.campId and c.campId = s.campId and c.campId = f.campId and s.siteId = p.siteId and c.sellerId = se.sellerId and c.campId = #{campId} group by s.siteId
+	</if>
+	
+	<if test="type==1">
+	select f.campToilet, f.campShower, f.campElect, f.campCaravan, f.campGlamping, f.campPlayground, f.campFood, c.content, c.campId, s.siteId, se.sellerId, c.campAddr, c.campName, s.campSiteName, s.campPerson, p.file, c.latitude, c.longitude, s.campSiteStock, c.campPhone, s.busyDayPrice as price from camp c join picture p join site s join facility f join seller se where c.campId = p.campId and c.campId = s.campId and c.campId = f.campId and s.siteId = p.siteId and c.sellerId = se.sellerId and c.campId = #{campId} group by s.siteId
+	</if>
+	
+	<if test="type==2">
+	select f.campToilet, f.campShower, f.campElect, f.campCaravan, f.campGlamping, f.campPlayground, f.campFood, c.content, c.campId, s.siteId, se.sellerId, c.campAddr, c.campName, s.campSiteName, s.campPerson, p.file, c.latitude, c.longitude, s.campSiteStock, c.campPhone, s.wkndPrice as price from camp c join picture p join site s join facility f join seller se where c.campId = p.campId and c.campId = s.campId and c.campId = f.campId and s.siteId = p.siteId and c.sellerId = se.sellerId and c.campId = #{campId} group by s.siteId
+	</if>
+	
+	<if test="type==3">
+	select f.campToilet, f.campShower, f.campElect, f.campCaravan, f.campGlamping, f.campPlayground, f.campFood, c.content, c.campId, s.siteId, se.sellerId, c.campAddr, c.campName, s.campSiteName, s.campPerson, p.file, c.latitude, c.longitude, s.campSiteStock, c.campPhone, s.dayPrice as price from camp c join picture p join site s join facility f join seller se where c.campId = p.campId and c.campId = s.campId and c.campId = f.campId and s.siteId = p.siteId and c.sellerId = se.sellerId and c.campId = #{campId} group by s.siteId
+	</if>
 
 </select>
 
@@ -29,45 +43,44 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<if test="type==0">
 	select p.file, c.campId, c.latitude, c.longitude, c.campName, s.campSiteName, c.campAddr, c.campPhone, s.busyWkndPrice as price, s.siteId from camp c join site s join picture p where 1=0 
-	<if test="campName!=null">or c.campId = s.campId and c.campId = p.campId and c.campName like '%${campName}%' and s.campPerson like '%${campPerson}%'</if>
-	<if test="campAddr!=null">or c.campId = s.campId and c.campId = p.campId and c.campAddr like '%${campAddr}%' and s.campPerson like '%${campPerson}%'</if>	
+	<if test="campName!=null">or c.campId = s.campId and s.siteId = p.siteId and c.campName like '%${campName}%' and s.campPerson like '%${campPerson}%'</if>
+	<if test="campAddr!=null">or c.campId = s.campId and s.siteId = p.siteId and c.campAddr like '%${campAddr}%' and s.campPerson like '%${campPerson}%'</if>	
 	<choose>
 		<when test="campName==null and campAddr==null">
-			or 1=1 and c.campId = s.campId and c.campId = p.campId and s.campPerson like '%${campPerson}%'
+			or 1=1 and c.campId = s.campId and s.siteId = p.siteId and s.campPerson like '%${campPerson}%'
 		</when>
 	</choose>
 	</if>
 	<if test="type==1">
 	select p.file, c.campId, c.latitude, c.longitude, c.campName, s.campSiteName, c.campAddr, c.campPhone, s.busyDayPrice as price, s.siteId from camp c join site s join picture p where 1=0 
-	<if test="campName!=null">or c.campId = s.campId and c.campId = p.campId and c.campName like '%${campName}%' and s.campPerson like '%${campPerson}%'</if>
-	<if test="campAddr!=null">or c.campId = s.campId and c.campId = p.campId and c.campAddr like '%${campAddr}%' and s.campPerson like '%${campPerson}%'</if>	
+	<if test="campName!=null">or c.campId = s.campId and s.siteId = p.siteId and c.campName like '%${campName}%' and s.campPerson like '%${campPerson}%'</if>
+	<if test="campAddr!=null">or c.campId = s.campId and s.siteId = p.siteId and c.campAddr like '%${campAddr}%' and s.campPerson like '%${campPerson}%'</if>	
 	<choose>
 		<when test="campName==null and campAddr==null">
-			or 1=1 and c.campId = s.campId and c.campId = p.campId and s.campPerson like '%${campPerson}%'
+			or 1=1 and c.campId = s.campId and s.siteId = p.siteId and s.campPerson like '%${campPerson}%'
 		</when>
 	</choose>
 	</if>
 	<if test="type==2">
 	select p.file, c.campId, c.latitude, c.longitude, c.campName, s.campSiteName, c.campAddr, c.campPhone, s.wkndPrice as price, s.siteId from camp c join site s join picture p where 1=0 
-	<if test="campName!=null">or c.campId = s.campId and c.campId = p.campId and c.campName like '%${campName}%' and s.campPerson like '%${campPerson}%'</if>
-	<if test="campAddr!=null">or c.campId = s.campId and c.campId = p.campId and c.campAddr like '%${campAddr}%' and s.campPerson like '%${campPerson}%'</if>	
+	<if test="campName!=null">or c.campId = s.campId and s.siteId = p.siteId and c.campName like '%${campName}%' and s.campPerson like '%${campPerson}%'</if>
+	<if test="campAddr!=null">or c.campId = s.campId and s.siteId = p.siteId and c.campAddr like '%${campAddr}%' and s.campPerson like '%${campPerson}%'</if>	
 	<choose>
 		<when test="campName==null and campAddr==null">
-			or 1=1 and c.campId = s.campId and c.campId = p.campId and s.campPerson like '%${campPerson}%'
+			or 1=1 and c.campId = s.campId and s.siteId = p.siteId and s.campPerson like '%${campPerson}%'
 		</when>
 	</choose>
 	</if>
 	<if test="type==3">
 	select p.file, c.campId, c.latitude, c.longitude, c.campName, s.campSiteName, c.campAddr, c.campPhone, s.dayPrice as price, s.siteId from camp c join site s join picture p where 1=0 
-	<if test="campName!=null">or c.campId = s.campId and c.campId = p.campId and c.campName like '%${campName}%' and s.campPerson like '%${campPerson}%'</if>
-	<if test="campAddr!=null">or c.campId = s.campId and c.campId = p.campId and c.campAddr like '%${campAddr}%' and s.campPerson like '%${campPerson}%'</if>	
+	<if test="campName!=null">or c.campId = s.campId and s.siteId = p.siteId and c.campName like '%${campName}%' and s.campPerson like '%${campPerson}%'</if>
+	<if test="campAddr!=null">or c.campId = s.campId and s.siteId = p.siteId and c.campAddr like '%${campAddr}%' and s.campPerson like '%${campPerson}%'</if>	
 	<choose>
 		<when test="campName==null and campAddr==null">
-			or 1=1 and c.campId = s.campId and and c.campId = p.campId and s.campPerson like '%${campPerson}%'
+			or 1=1 and c.campId = s.campId and s.siteId = p.siteId and s.campPerson like '%${campPerson}%'
 		</when>
 	</choose>
 	</if>
-	<if test="order!=null">order by ${order} </if>
 	limit #{skip}, #{qty}
 </select>
 
@@ -87,6 +100,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	select avg(rate), campId from campreview where campId = #{campId}
 	
+</select>
+
+<select id="selectCampReview" parameterType="int" resultType="java.util.HashMap">
+
+	select rate, title, content, writer, writeDate, campId from campreview where campId = #{campId}
+	
+</select>
+
+<select id="selectSiteIds" parameterType="int" resultType="java.util.HashMap">
+
+	select s.siteId, s.campSiteStock, c.campId from site s join camp c where s.campId = c.campId and c.campId = #{campId}
+
+</select>
+
+<select id="selectStock" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+
+	select count(*), s.siteId, s.campSiteStock, bs.stayDay from bookedsite bs join site s where s.siteId  = bs.siteId and bs.stayDay = #{chkIn} and s.siteId = #{siteId} group by s.siteId;
+
 </select>
 
 </mapper>

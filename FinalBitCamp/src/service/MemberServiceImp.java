@@ -80,4 +80,19 @@ public class MemberServiceImp implements MemberService{
 		return 0;
 	}
 
+	@Override
+	public Member selectMemberName(String name) {
+		return mDao.selectMemberName(name);
+	}
+
+	@Override
+	public boolean updateMember(Member member) {
+		return mDao.updateMember(member);
+	}
+
+	@Override
+	public void leaveMember(String userId) {
+		mDao.deleteMember(userId);
+	}
+
 }

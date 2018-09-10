@@ -16,4 +16,10 @@ public class SiteServiceImp implements SiteService{
 		sDao.insertSite(site);
 	}
 
+	@Override
+	public Site getAsite(int siteId) {
+		Site site = sDao.selectSite(siteId);
+		return site;
+	}
+
 }

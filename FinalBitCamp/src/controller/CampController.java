@@ -57,13 +57,18 @@ public class CampController {
 		return view;
 	}
 	
-	@RequestMapping("memberGetOneSiteInfo.do")
-	public String memberGetOneSiteInfo(@RequestParam(required=false) String chkIn, 
-			@RequestParam(required=false) String chkOut, @RequestParam(required=false) int campId,
-			@RequestParam(required=false) int siteId, @RequestParam(required=false) int type,
-			@RequestParam(required=false) int price, @RequestParam(required=false) String campSiteStock) {
-		return "main";
-	}
+//	@RequestMapping("memberGetOneSiteInfo.do")
+//	public String memberGetOneSiteInfo() {
+//		return "memberBookingForm_1";
+//	}
+	
+//	@RequestMapping("memberGetOneSiteInfo.do")
+//	public String memberGetOneSiteInfo(@RequestParam(required=false) String chkIn, 
+//			@RequestParam(required=false) String chkOut, @RequestParam(required=false) int campId,
+//			@RequestParam(required=false) int siteId, @RequestParam(required=false) int type,
+//			@RequestParam(required=false) int price, @RequestParam(required=false) String campSiteStock) {
+//		return "memberBookingForm_1";
+//	}
 	
 	@RequestMapping("campDetailInfo.do")
 	public ModelAndView campDetailInfo(@RequestParam(value="campId") int campId, @RequestParam(value="type") int type,
@@ -71,10 +76,11 @@ public class CampController {
 			HttpSession session) {
 		HashMap<String, Object> params = new HashMap<>();
 		List<Integer> myCampList =  new ArrayList<>();
+		ModelAndView mav = new ModelAndView();
 		params.put("campId", campId);
 		params.put("type", type);
-		List<Map<String, Object>> getCamp = cService.getCamp(params);
 		double rate = (double) cService.getRate(campId).get("avg(rate)");
+		List<Map<String, Object>> getCamp = cService.getCamp(params);
 		List<Map<String, Object>> getReview = cService.getReview(campId);
 		getCamp.get(0).put("rate", rate);
 		getCamp.get(0).put("type", type);
@@ -97,15 +103,12 @@ public class CampController {
 			}
 		}
 		Gson gson = new Gson();
-		String campDetail = gson.toJson(getCamp);
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("campDetail", campDetail);
-		mav.setViewName("campDetailInfo");
 		List<Map<String, Object>> stockList = cService.getStock(chkIn, chkOut, campId);
+		String campDetail = gson.toJson(getCamp);
 		String stList = gson.toJson(stockList);
-		mav.addObject("stockList", stList);
-		mav.setViewName("campDetailInfo");
 		String campReview = gson.toJson(getReview);
+		mav.addObject("campDetail", campDetail);
+		mav.addObject("stockList", stList);		
 		mav.addObject("campReview", campReview);
 		mav.setViewName("campDetailInfo");
 		return mav;
@@ -145,9 +148,7 @@ public class CampController {
 		String stList = gson.toJson(stockList);
 		String campReview = gson.toJson(getReview);
 		mav.addObject("campDetail", campDetail);
-		mav.setViewName("campDetailInfo");
 		mav.addObject("stockList", stList);
-		mav.setViewName("campDetailInfo");
 		mav.addObject("campReview", campReview);
 		mav.setViewName("campDetailInfo");
 		return mav;
@@ -266,9 +267,7 @@ public class CampController {
 			String sc = gson.toJson(searchCon);
 			String mcl = gson.toJson(myCampList);
 			mav.addObject("csl", csl);
-			mav.setViewName("campSiteSearchResult");
 			mav.addObject("sc", sc);
-			mav.setViewName("campSiteSearchResult");
 			mav.addObject("mcl", mcl);
 			mav.setViewName("campSiteSearchResult");
 			return mav;

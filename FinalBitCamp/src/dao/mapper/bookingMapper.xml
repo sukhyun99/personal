@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="dao.BookingDao">
+  
+  <insert id="insertBooking" parameterType="booking">
+  	insert into booking values(0, #{userId}, #{siteId}, #{sellerId}, #{campId},
+  						#{chkIn}, #{chkOut}, #{name}, #{phone}, #{price}, #{statusType},
+  						#{cancelDate}, #{siteQuantity}, #{mileage_type}, #{bookingDate}, #{mileageType}) 
+  </insert>
+  
+  <select id="selectMemberBookingList" parameterType="String" resultType="booking">
+  	select * from booking where userId = #{userId}
+  </select>
+  
+  <select id="selectSellerBookingList" parameterType="String" resultType="booking">
+  	select b.bookingNum, b.name, b.chkIn, b.chkOut, b.phone, b.price, b.statusType, b.siteQuantity, b.bookingDate, b.userId, 
+  	si.campSiteName, si.content, si.campPerson, s.businessName, c.campName from booking b join site si on
+  	b.siteId = si.siteId join seller s on b.sellerId = s.sellerId join camp c on b.sellerId = c.sellerId
+  	where s.sellerId = #{sellerId} order by b.bookingDate desc
+  </select>
+ 	
+  <select id="selectSearch" parameterType="booking">
+	select * from booking where userId = #{userId}
+	<if test="campName!=null">
+		and title like '%${campName}$%'
+	</if>
+	<if test="bookingNum!=null">
+		and bookingNum like '%${bookingNum}%'
+	</if>
+	<if test="name!=null">
+		and name like '%${name}%'
+	</if>
+  </select>
+  
+  <select id="getCount" resultType="int" parameterType="java.util.HashMap">
+        select count(*) from booking
+        where 1=0 or userId = #{userId}
+		<if test="campId != 0">
+		    or campId like '%${campId}%'
+		</if>
+		<if test="bookingNum != null">
+		    or bookingNum like '%${bookingNum}%'
+		</if>
+		<if test="name != null">
+        	or name like #{name}
+		</if>
+		<if test="startDate != null|| startDate!=''">
+		   and bookingDate between #{startDate} and #{endDate}
+		</if>
+   </select>
+    
+	<select id="searchMyBooking" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select b.bookingNum, b.userId, b.siteId, b.sellerId, b.chkIn, b.chkOut, b.name, b.price, b.statusType, b.siteQuantity,
+		b.cancelDate, b.bookingDate, c.campName from booking b join camp c join site si join seller se where b.campId = c.campId and
+		b.sellerId = se.sellerId and b.userId = #{userId}
+	</select>
+	
+	<select id="chkBooking" parameterType="java.util.HashMap" resultType="int">
+		select count(*) from booking where userId=#{userId} and chkIn>#{date}
+	</select>
+  
+  </mapper>

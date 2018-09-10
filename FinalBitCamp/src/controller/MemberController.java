@@ -3,7 +3,9 @@ package controller;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletResponse;
@@ -24,7 +26,10 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
 import model.Member;
+import service.BookingService;
+import service.MailService;
 import service.MemberService;
+import service.MileageService;
 import service.NaverLoginBO;
 
 @Controller
@@ -36,6 +41,245 @@ public class MemberController {
 	// NaverLoginBO
 	@Autowired
 	private NaverLoginBO naverLoginBO;
+	
+	@Autowired
+	private MailService mailService;
+	
+	@Autowired
+	private MileageService mileService;
+	
+	@Autowired
+	private BookingService bService;
+	
+	@RequestMapping("leaveMember.do")
+	public void leaveMember(String userId, HttpServletResponse resp, HttpSession session) {
+		int response;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		HashMap<String, Object> params = new HashMap<>();
+		params.put("userId", userId);
+		params.put("date", sdf.format(new Date()));
+		if(bService.chkBooking(params)>0) {
+			response = 0;		//진행중인 예약이나 결제가 있음
+		}
+		else {
+			if(mileService.getMyMileage(userId)!=null) {
+				mileService.deleteMemberMileage(userId);
+			}
+			mService.leaveMember(userId);
+			session.removeAttribute("userId");
+			response = 1;		//탈퇴 성공
+		}
+		try {
+			resp.getWriter().println(response);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("addrUpdate.do")
+	public void addrUpdate(String userId, String post, String addr, HttpServletResponse resp) {
+		Member m = mService.selectMember(userId);
+		int response;
+		m.setAddr(addr);
+		m.setPost(post);
+		if(mService.updateMember(m)) {
+			response = 1;
+		}
+		else {
+			response = 0;
+		}
+		try {
+			resp.getWriter().println(response);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("phoneUpdate.do")
+	public void phoneUpdate(String phone, String userId, HttpServletResponse resp) {
+		Member m = mService.selectMember(userId);
+		int response;
+		m.setPhone(phone);
+		if(mService.updateMember(m)) {
+			response = 1;
+		}
+		else {
+			response = 0;
+		}
+		try {
+			resp.getWriter().println(response);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("emailUpdate.do")
+	public void emailUpdate(String email, String userId, HttpServletResponse resp) {
+		Member m = mService.selectMember(userId);
+		int response;
+		m.setEmail(email);
+		if(mService.updateMember(m)) {
+			response = 1;
+		}
+		else {
+			response = 0;
+		}
+		try {
+			resp.getWriter().println(response);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("pwUpdate.do")
+	public void pwUpdate(String pwNow, String pwNew, String pwChk, String userId, HttpServletResponse resp) {
+		Member m = mService.selectMember(userId);
+		int response;
+		String pw = m.getPw();
+		if(pw.equals(pwNow)) {
+			if(pwNew.equals(pwChk)) {
+				m.setPw(pwNew);
+				if(mService.updateMember(m)) {
+					response = 2;		//변경완료
+				}
+				else {
+					response = 3;		//변경실패
+				}
+			}
+			else {
+				response = 1;	//새로운 비번이 비번확인값과 일치하지 않음.
+			}
+		}
+		else {
+			response = 0;		//현재 디비에 저장되어있는 비번과 입력 받은 비번 값이 일치하지 않음.
+		}
+		try {
+			resp.getWriter().println(response);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("pwChk.do")
+	public void pwChk(String userId, String pwChk, HttpServletResponse resp) {
+		Member m = mService.selectMember(userId);
+		int response;
+		String pw = m.getPw();
+		if(pw.equals(pwChk)) {
+			response = 1;
+		}
+		else {
+			response = 0;
+		}
+		try {
+			resp.getWriter().println(response);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("memberModifyForm.do")
+	public ModelAndView memberModifyForm(HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		Gson gson = new Gson();
+	    String userId = (String) session.getAttribute("userId");
+	    Member member = mService.selectMember(userId);
+	    String memberInfo = gson.toJson(member);
+	    int mileage;
+	    if(mileService.getMyMileage(userId)==null) {
+	    	mileage = 0;
+	    }
+	    else {
+	    	mileage = mileService.selectTotalMileage(userId);
+	    }
+	    mav.addObject("mileage", mileage);
+	    mav.addObject("member", member);
+	    mav.addObject("memberInfo", memberInfo);
+        mav.setViewName("memberModifyForm");
+        return mav;
+	}
+	
+	@RequestMapping("memberModifyPwCheck.do")
+	public ModelAndView memebrModifyPwCheck(HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+	    String userId = (String) session.getAttribute("userId");
+	    int mileage;
+	    if(mileService.getMyMileage(userId)==null) {
+	    	mileage = 0;
+	    }
+	    else {
+	    	mileage = mileService.selectTotalMileage(userId);
+	    }
+	    mav.addObject("mileage", mileage);
+	    mav.addObject("member", mService.selectMember(userId));
+        mav.setViewName("memberModifyPwCheck");
+        return mav;
+	}
+	
+	@RequestMapping("findPass.do")
+	public void findPass(String userId, String email, HttpServletResponse resp) {
+		Member m = mService.selectMember(userId);
+		int response;
+		if(m!=null) {
+			if(m.getEmail().equals(email)) {
+				String subject = "비번찾기 안내드립니다.";
+				String text = "";
+				text = userId + "님의 비밀번호는 " + m.getPw() + " 입니다.";
+				mailService.send(subject, text, email);
+				response = 1;			//이메일 발송 완료
+			}
+			else {
+				response = 2;		//디비의 이메일과 입력 받은 이메일 값이 일치하지 않음
+			}
+		}
+		else {
+			response = 3;		//존재하지 않는 이름
+		}
+		try {
+			resp.getWriter().println(response);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("findId.do")
+	public void findId(String name, String email, HttpServletResponse resp) {
+		Member m = mService.selectMemberName(name);
+		int response;
+		if(m!=null) {
+			if(m.getEmail().equals(email)) {
+				String subject = "아이디찾기 안내드립니다.";
+				String text = "";
+				text = name + "님의 아이디는 " + m.getUserId() + " 입니다.";
+				mailService.send(subject, text, email);
+				response = 1;			//이메일 발송 완료
+			}
+			else {
+				response = 2;		//디비의 이메일과 입력 받은 이메일 값이 일치하지 않음
+			}
+		}
+		else {
+			response = 3;		//존재하지 않는 이름
+		}
+		try {
+			resp.getWriter().println(response);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("memberFindingForm.do")
+	public String memberFindingForm() {
+		return "memberFindingForm";
+	}
 	
 	@RequestMapping("memeberJoinTerms.do")
 	public String joinMemberTerms() {

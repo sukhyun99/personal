@@ -227,4 +227,11 @@ public class CampServiceImp implements CampService{
 	public List<Map<String, Object>> getReview(int campId) {
 		return cDao.selectCampReview(campId);
 	}
+
+	@Override
+	public Camp getOneCamp(int campId) {
+		Camp camp = new Camp();
+		camp = cDao.getOneCamp(campId);
+		return camp;
+	}
 }

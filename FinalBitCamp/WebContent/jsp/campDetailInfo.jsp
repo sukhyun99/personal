@@ -37,6 +37,7 @@ $(document).ready(function(){
 	if($('#loginState').val()){
 		$('#login').text($('#loginState').val()+'님 로그아웃');
 		$('#login').attr('href', 'logout.do');
+		$('#loginList').before('<li class="nav-item"><a class="nav-link" href="#">마이페이지</a></li>');
 	}
 	
 	$('#login').click(function(e){
@@ -62,9 +63,9 @@ $(document).ready(function(){
 	$(".campAddr").text(campDetail[0].campAddr);
 	detailLoad(campDetail, stockList);
 	$("#campContent").text(campDetail[0].content);
-	tapMap(campDetail);
-// 	$(".google-map").attr('data-lat', campDetail[0].latitude);
-// 	$(".google-map").attr('data-lng', campDetail[0].longitude);
+// 	tapMap(campDetail);
+	$(".google-map").prop('data-lat', campDetail[0].latitude);
+	$(".google-map").prop('data-lng', campDetail[0].longitude);
 // 	alert($('.google-map').length)
 	
 	$("#rate").text(campDetail[0].rate);
@@ -98,7 +99,7 @@ $(document).ready(function(){
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="">내 캠핑장 등록</a></li>
                 <li><a href="">고객센터</a></li>
-                <li class="nav-item">
+                <li class="nav-item" id="loginList">
                     <a class="nav-link" id="login" href="#" data-target="#loginModal">로그인</a>
                     <input type="hidden" id="loginState" value="${member.userId}">
               	</li>
@@ -187,8 +188,8 @@ $(document).ready(function(){
                     </div>
                   </div>
                   <div class="tab-pane" id="HotelPageTabs-3" role="tab-panel">
-                    <div id="daum" class="theme-item-page-map" style="width: 740px; height: 300px;"></div>
-<!--                     <div class="theme-item-page-map google-map" data-lat=" " data-lng=" ">지도</div> -->
+<!--                     <div id="daum" class="theme-item-page-map" style="width: 740px; height: 300px;"></div> -->
+                    <div class="theme-item-page-map google-map" data-lat=" " data-lng=" ">지도</div>
                   </div>
                   <div class="tab-pane" id="HotelPageTabs-4" role="tab-panel">
                     <div class="theme-reviews">

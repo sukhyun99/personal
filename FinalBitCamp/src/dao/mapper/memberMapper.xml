@@ -13,6 +13,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 </insert>
 
+<update id="updateMember" parameterType="member">
+
+	update member set pw = #{pw}, name = #{name}, phone = #{phone}, email = #{email}, addr = #{addr},
+	post = #{post}, admin = #{admin}, joinDate = #{joinDate}, type = #{type} where userId = #{userId}
+
+</update>
+
+<delete id="deleteMember" parameterType="String">
+
+	delete from member where userId = #{userId}
+
+</delete>
+
 <insert id="insertMemberSns" parameterType="Member">
 
 		insert into member values (#{userId}, null, #{name}, null, #{email},
@@ -23,6 +36,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <select id="selectMember" parameterType="String" resultType="Member">
 
 		select * from member where userId = #{userId}
+		
+</select>
+
+<select id="selectMemberName" parameterType="String" resultType="Member">
+
+		select * from member where name = #{name}
 		
 </select>
 

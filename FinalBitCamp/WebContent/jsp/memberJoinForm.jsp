@@ -106,7 +106,6 @@ function jusoCall(roadAddrPart1, addrDetail, zipNo) {
 }
 
 function goMain(){
-	alert('hi');
 	location.href = "main.do";
 }
 

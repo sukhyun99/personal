@@ -8,8 +8,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <insert id="insertSite" parameterType="site">
 
 	insert into site values(
-	0, #{campId}, #{campSiteName}, #{content}, #{campSiteStock}, #{campPerson}, #{startBusyDate}, #{endBusyDate}, #{busyDayPrice}, #{busyWkndPrice}, #{dayPrice}, #{wkndPrice}
+	0, #{campId}, #{campSiteName}, #{content}, #{campSiteStock}, #{campPerson}, 
+	#{startBusyDate}, #{endBusyDate}, #{busyDayPrice}, #{busyWkndPrice}, #{dayPrice}, #{wkndPrice}
 	)
 
 </insert>
+
+<select id="selectSite" parameterType="int" resultType="site">
+
+  	select * from site where siteId = #{siteId }
+  	
+</select>
+ 
 </mapper>

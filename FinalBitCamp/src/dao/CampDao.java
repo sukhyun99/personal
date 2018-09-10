@@ -20,4 +20,5 @@ public interface CampDao {
 	public List<Map<String, Object>> selectCampReview(int campId);
 	public List<Map<String, Object>> selectSiteIds(int campId);
 	public Map<String, Object> selectStock(HashMap<String, Object>params);
+	public Camp getOneCamp(int campId);
 }

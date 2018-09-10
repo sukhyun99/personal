@@ -21,4 +21,5 @@ public interface CampService {
 	public List<Picture> getPic(int campId);
 	public List<Map<String, Object>> getStock(String chkIn, String chkOut, int campId);
 	public List<Map<String, Object>> campDetailSearch(int campId, int type, String chkIn, String chkOut);
+	public Camp getOneCamp(int campId);
 }

@@ -79,13 +79,6 @@ function detailLoad(campDetail, stockList){
 		var price = $("i[id|='"+siteId+"']").text();
 		var chkIn = campDetail[0].chkIn;
 		var chkOut = campDetail[0].chkOut;
-		alert(siteId)
-		alert(campSiteStock)
-		alert(campId)
-		alert(type)
-		alert(price)
-		alert(chkIn)
-		alert(chkOut)
 		location.href = "memberGetOneSiteInfo.do?campId="+campId+"&siteId="+siteId+"&campSiteStock="+campSiteStock
 														+"&type="+type+"&price="+price+"&chkIn="+chkIn+"&chkOut="+chkOut;
 	})

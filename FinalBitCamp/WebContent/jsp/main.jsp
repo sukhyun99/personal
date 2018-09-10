@@ -22,6 +22,7 @@ $(document).ready(function(){
 	if($('#loginState').val()){
 		$('#login').text($('#loginState').val()+'님 로그아웃');
 		$('#login').attr('href', 'logout.do');
+		$('#loginList').before('<li class="nav-item"><a class="nav-link" href="memberModifyPwCheck.do">마이페이지</a></li>');
 	}
 	
 	$('#login').click(function(e){
@@ -52,13 +53,9 @@ $(document).ready(function(){
             <ul class="nav navbar-nav">
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <li class="nav-item">
-               <a class="nav-link" href="#">내 캠핑장 등록</a>     
-              </li>
-              <li class="nav-item">
-                    <a class="nav-link" href="#">고객센터</a>
-              </li>
-              <li class="nav-item">
+              <li class="nav-item"><a class="nav-link" href="#">내 캠핑장 등록</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">고객센터</a></li>
+              <li class="nav-item" id="loginList">
                     <a class="nav-link" id="login" href="#" data-target="#loginModal">로그인</a>
                     <input type="hidden" id="loginState" value="${member.userId}">
               </li>
@@ -581,7 +578,7 @@ $(document).ready(function(){
         				</div><br>
         				<div class="form-group">
     						<div class="col-sm-offset-3 col-sm-6" >
-      						<a href="#" class="col-sm-8">아이디/비밀번호 찾기</a>
+      						<a href="memberFindingForm.do" class="col-sm-8">아이디/비밀번호 찾기</a>
       						<a href="memeberJoinTerms.do" class="col-sm-4 _p-0">회원가입</a>
    					 		</div>	
         				</div>

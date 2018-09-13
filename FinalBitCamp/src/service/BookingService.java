@@ -27,6 +27,8 @@ public interface BookingService {
 	
 	public List<HashMap<String, Object>> getMyBooking(String userId);
 	
-	public int chkBooking(HashMap<String, Object> params);
+	public HashMap<String, Object> getPaymentResultInfo(HashMap<String, Object> params);
 
+	public int chkBooking(HashMap<String, Object> params);
+	
 }

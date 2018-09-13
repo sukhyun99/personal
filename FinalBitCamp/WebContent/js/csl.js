@@ -33,7 +33,7 @@ function cslLoad (csl) {
 										+'</div>'
 										+'<a class="btn btn-primary-inverse btn-block theme-search-results-item-price-btn" id="' + item.campId + '">상세보기</a>'
 										+'<div class="campBookmark">'
-										+'<a  id="myCamp' + item.siteId + '" class="theme-search-results-item-bookmark theme-search-results-item-bookmark-bottom">' 
+										+'<a id="myCamp' + item.siteId + '" class="theme-search-results-item-bookmark theme-search-results-item-bookmark-bottom">' 
 											+'<i class="fa fa-bookmark"></i> <span>찜하기</span>'
 										+'</a>'
 										+'</div>'

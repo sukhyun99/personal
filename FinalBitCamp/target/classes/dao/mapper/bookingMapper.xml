@@ -6,11 +6,10 @@
   <mapper namespace="dao.BookingDao">
   
   <insert id="insertBooking" parameterType="booking">
-  	insert into booking values(0, #{userId}, #{siteId}, #{sellerId}, #{campId},
+  	insert into booking values(#{bookingNum}, #{userId}, #{siteId}, #{sellerId}, #{campId},
   						#{chkIn}, #{chkOut}, #{name}, #{phone}, #{price}, #{statusType},
-  						#{cancelDate}, #{siteQuantity}, #{mileage_type}, #{bookingDate}, #{mileageType}) 
+  						#{cancelDate}, #{siteQuantity}, #{guestQuantity}, #{bookingDate}, #{mileage_type}) 
   </insert>
-  
   <select id="selectMemberBookingList" parameterType="String" resultType="booking">
   	select * from booking where userId = #{userId}
   </select>
@@ -19,10 +18,10 @@
   	select b.bookingNum, b.name, b.chkIn, b.chkOut, b.phone, b.price, b.statusType, b.siteQuantity, b.bookingDate, b.userId, 
   	si.campSiteName, si.content, si.campPerson, s.businessName, c.campName from booking b join site si on
   	b.siteId = si.siteId join seller s on b.sellerId = s.sellerId join camp c on b.sellerId = c.sellerId
-  	where s.sellerId = #{sellerId} order by b.bookingDate desc
+  	where s.sellerId = #{sellerId}
   </select>
  	
-  <select id="selectSearch" parameterType="booking">
+  <select id="selectSearch" parameterType="Booking">
 	select * from booking where userId = #{userId}
 	<if test="campName!=null">
 		and title like '%${campName}$%'
@@ -35,7 +34,7 @@
 	</if>
   </select>
   
-  <select id="getCount" resultType="int" parameterType="java.util.HashMap">
+  	<select id="getCount" resultType="int" parameterType="java.util.HashMap">
         select count(*) from booking
         where 1=0 or userId = #{userId}
 		<if test="campId != 0">
@@ -50,14 +49,20 @@
 		<if test="startDate != null|| startDate!=''">
 		   and bookingDate between #{startDate} and #{endDate}
 		</if>
-   </select>
+		
+    </select>
     
-	<select id="searchMyBooking" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-		select b.bookingNum, b.userId, b.siteId, b.sellerId, b.chkIn, b.chkOut, b.name, b.price, b.statusType, b.siteQuantity,
-		b.cancelDate, b.bookingDate, c.campName from booking b join camp c join site si join seller se where b.campId = c.campId and
-		b.sellerId = se.sellerId and b.userId = #{userId}
+    <select id="getPaymentResultInfo" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	select b.bookingNum, b.bookingDate, b.name, b.phone, b.chkIn, b.chkOut, b.siteQuantity, b.guestQuantity, b.price, c.campName, s.campSiteName from booking b join camp c 
+    	on b.bookingNum = #{bookingNum} and b.campId = c.campId join site s on b.siteId = s.siteId;
+    </select>
+    
+    <select id="searchMyBooking" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	select b.bookingNum, b.userId, b.siteId, b.sellerId, b.chkIn, b.chkOut, b.name, b.price, b.statusType, b.siteQuantity,
+	b.cancelDate, b.bookingDate, c.campName from booking b join camp c join site si join seller se where b.campId = c.campId and
+	b.sellerId = se.sellerId and b.userId = #{userId} 
 	</select>
-	
+
 	<select id="chkBooking" parameterType="java.util.HashMap" resultType="int">
 		select count(*) from booking where userId=#{userId} and chkIn>#{date}
 	</select>

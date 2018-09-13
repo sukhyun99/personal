@@ -2,8 +2,10 @@ package service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +26,8 @@ public class MileageServiceImp implements MileageService{
 	}
 
 	@Override
-	public void updateMileage(Mileage mileage) {
-		mDao.updateMileage(mileage);
+	public void updateMileage(HashMap<String, Object>params) {
+		mDao.updateMileage(params);
 	}
 
 	@Override
@@ -66,20 +68,6 @@ public class MileageServiceImp implements MileageService{
 	}
 
 	@Override
-	public boolean chkeckMileage(String userId) {
-		List<Mileage> mileage = getMyMileage(userId);
-		boolean isTrue = false;
-		if (mileage != null) {
-			if (mileage.get(0).getUserId() == userId)
-				isTrue = true;
-			else
-				isTrue = false;
-		} else
-			isTrue = false;
-		return isTrue;
-	}
-
-	@Override
 	public int selectTotalMileage(String userId) {
 		return mDao.selectTotalMileage(userId);
 	}
@@ -87,6 +75,60 @@ public class MileageServiceImp implements MileageService{
 	@Override
 	public void deleteMemberMileage(String userId) {
 		mDao.deleteMemberMileage(userId);
+	}
+
+	@Override
+	public int getUsableMileage(String userId) {			//사용 가능한 마일리지 체크 해서 가져오기
+		System.out.println(getMyMileage(userId).size());
+		if(getMyMileage(userId).size() == 0) {
+			return 0;
+		}else {
+			int usableMileage = mDao.getUsableMileage(userId);
+			return usableMileage;
+		}
+	}
+
+	@Override
+	public void checkMileage(String userId, int mileage) {
+		List<Mileage> mileageList = new ArrayList<>();
+		mileageList = getMyMileage(userId);
+		
+		if(mileageList == null) {
+			 
+		}else {
+			while(mileage == 0) {
+				
+			}
+		}
+		
+//		if (getMyMileage(userId) == null) {									
+//			Mileage new_mileage = new Mileage();
+//			new_mileage.setUserId(userId);
+//			new_mileage.setMileage(1000);
+//			Date date = new Date();
+//			new_mileage.setStartDate(date);
+//			new_mileage.setEndDate(getEndDate(date));
+//			insertMileage(new_mileage);
+//		} else {											
+//			int new_Mileage = (m.getMileage() + 1000);
+//			m.setMileage(new_Mileage);
+//			updateMileage(m);
+//		}
+	}
+
+	@Override
+	public void settingMileage(String userId, int mileage) {
+//		// TODO Auto-generated method stub
+		//마일리지 차감
+//		int origin_mileage = getUsableMileage(userId);
+//		int minus_mileage = (origin_mileage-mileage);
+//		m.setMileage(minus_mileage);
+//		updateMileage(m);
+	}
+
+	@Override
+	public Mileage useOldMileage(String userId) {
+		return mDao.selectOldMileage(userId);
 	}
 
 }

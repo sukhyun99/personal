@@ -3,16 +3,22 @@ package controller;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,6 +56,15 @@ public class MemberController {
 	
 	@Autowired
 	private BookingService bService;
+	
+	@RequestMapping("customerCenter.do")
+	public String customerCenter(HttpSession session, Model model) {
+		if(session.getAttribute("userId")!=null) {
+			String userId = (String) session.getAttribute("userId");
+			model.addAttribute("userId", userId);
+		}
+		return "customerCenter";
+	}
 	
 	@RequestMapping("leaveMember.do")
 	public void leaveMember(String userId, HttpServletResponse resp, HttpSession session) {
@@ -228,9 +243,12 @@ public class MemberController {
 		int response;
 		if(m!=null) {
 			if(m.getEmail().equals(email)) {
+				String newPass = "Asiw#d4e8d";
 				String subject = "비번찾기 안내드립니다.";
 				String text = "";
-				text = userId + "님의 비밀번호는 " + m.getPw() + " 입니다.";
+				m.setPw(newPass);
+				mService.updateMember(m);
+				text = userId + "님의 비밀번호는 " + newPass + " 입니다.";
 				mailService.send(subject, text, email);
 				response = 1;			//이메일 발송 완료
 			}
@@ -330,15 +348,18 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "memberLogin.do", method = RequestMethod.POST)
-	public String loginMember(HttpSession session, String userId, String pw) {
-		if (mService.login(userId, pw)) {
-			session.setAttribute("userId", userId);
-			return "redirect:main.do";
-		} else {
-			System.out.println("실패");
-			return "redirect:main.do";
-		}
-	}
+	   public void loginMember(HttpServletRequest req, HttpServletResponse resp,
+	         HttpSession session, String userId, String pw) throws ServletException, IOException{
+	      int response;
+	      if (mService.login(userId, pw)) {
+	         session.setAttribute("userId", userId);
+	         response = 1;
+	         resp.getWriter().println(response);
+	      } else {
+	         response = 0;
+	         resp.getWriter().println(response);
+	      }
+	   }
 	
 	@RequestMapping("logout.do")
 	public String logoutMember(HttpSession session) {
@@ -381,7 +402,6 @@ public class MemberController {
 		String apiResult = naverLoginBO.getUserProfile(oauthToken);
 		mService.MemberNaver(apiResult, session);
 		return "redirect:main.do";
-
 	}
 	
 	@RequestMapping("hello.do")
@@ -487,7 +507,6 @@ public class MemberController {
 				member.setPhone(businessPhone);
 				member.setPw(pw);
 				member.setUserId(userId);
-				System.out.println(member.toString());
 				mService.joinMember(member);
 			}			
 		} catch (JsonIOException e) {

@@ -5,6 +5,14 @@
   
   <mapper namespace="dao.MileageDao">
   
+  	<insert id="insertMileage" parameterType="mileage">
+  		insert into mileage values(0, #{userId}, #{mileage}, #{startDate}, #{endDate})
+  	</insert>
+  
+  	<select id="selectOldMileage" parameterType="String" resultType="mileage">
+  		select * from mileage where userId = #{userId} order by endDate limit 1
+  	</select>
+  
   	<select id="selectMileage" parameterType="String" resultType="mileage">
   		select * from mileage where userId = #{userId}
   	</select>
@@ -13,12 +21,16 @@
   		select sum(mileage) from mileage where userId = #{userId}
   	</select>
   	
-  	<update id="updateMileage" parameterType="mileage">
-  		update mileage set userId = #{userId}
+  	<update id="updateMileage" parameterType="java.util.HashMap">
+  		update mileage set mileage = #{mileage} where userId = #{userId} order by endDate limit 1
   	</update>
   	
   	<delete id="deleteMemberMileage" parameterType="String">
-  		delete from mileage where userId = #{userId}
+  		delete from mileage where userId = #{userId} order by endDate limit 1
   	</delete>
+  	
+  	<select id="getUsableMileage" parameterType="String" resultType="int">
+  		select sum(mileage) from mileage where userId = #{userId}
+  	</select>
   	
   </mapper>

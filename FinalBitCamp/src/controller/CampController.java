@@ -266,6 +266,7 @@ public class CampController {
 			String csl = gson.toJson(campSearchList);
 			String sc = gson.toJson(searchCon);
 			String mcl = gson.toJson(myCampList);
+			System.out.println(csl.toString());
 			mav.addObject("csl", csl);
 			mav.addObject("sc", sc);
 			mav.addObject("mcl", mcl);

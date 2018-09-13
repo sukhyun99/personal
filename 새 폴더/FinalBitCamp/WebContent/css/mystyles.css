@@ -1,0 +1,47 @@
+/*YOUR CUSTOM STYLES*/
+
+
+.camp-seasons {
+    padding-bottom: 20px;
+}
+.camp-season1 {
+    border-radius: 50%;
+    padding: 1%;
+    background-color: deeppink;
+    color: white;
+}
+.camp-season2 {
+    border-radius: 50%;
+    padding: 1%;
+    background-color: darkcyan;
+    color: white;
+}
+.camp-season3 {
+    border-radius: 50%;
+    padding: 1%;
+    background-color: royalblue;
+    color: white;
+}
+
+/*memberBookingForm_1*/
+.accordion {
+    text-align: right;
+    width: 100%;
+    }
+
+.panel {
+    padding: 0 18px;
+    background-color: #f0f0f0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    line-height: 2em;
+ } 
+  
+ .camp-stock{
+	border-radius: 60px;
+/* 	width:10px; */
+    padding: 5px 10px;
+    background-color: #400080;
+    color: white;
+} 

@@ -12,18 +12,22 @@ function mapLoad(csl, map){
 		var iwContent = [
 		     '<div class="iw_inner" style="height: 100px; width: 300px;">',
 		     '   <h4>'+csl[i].campName+'</h4>',
-		     '   <p>'+csl[i].campAddr+'<br /> 전화번호: ',
+		     '   <p>'+csl[i].campAddr+'<br /> 전화번호: 0',
 		     +csl[i].campPhone+' 가격: '+csl[i].price+'<br />',
 		     '   </p>',
 		     '</div>'
 		 ].join('');
-	     //인포윈도우를 생성합니다
+		var price = csl[i].price + "원";
+	    //인포윈도우를 생성합니다
 		var infowindow = new daum.maps.InfoWindow({
-// 		position : iwPosition,
-		content : iwContent
+			content : iwContent
 		});
+		var infowindow_price = new daum.maps.InfoWindow({
+			content : price
+		})
 		daum.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
 		daum.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+		infowindow_price.open(map, marker);
 	 	// 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다			
 	};
 	function makeOverListener(map, marker, infowindow) {

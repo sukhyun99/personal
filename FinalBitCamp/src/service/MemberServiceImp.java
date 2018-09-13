@@ -1,5 +1,7 @@
 package service;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +35,15 @@ public class MemberServiceImp implements MemberService{
 		if (result == null) {
 			return false;
 		} else {
+			HashMap<String, Object> params = new HashMap<>();
+			params.put("userId", userId);
+			params.put("pw", pw);
 			String originPw = result.getPw();
-			if (originPw == null) {
+			String getPw = mDao.selectPw(params);
+			if (!originPw.equals(getPw)) {
 				return false;
 			} else {
-				if (originPw.equals(pw)) {
+				if (originPw.equals(getPw)) {
 					return true;
 				} else {
 					return false;
@@ -93,6 +99,11 @@ public class MemberServiceImp implements MemberService{
 	@Override
 	public void leaveMember(String userId) {
 		mDao.deleteMember(userId);
+	}
+
+	@Override
+	public String getPw(HashMap<String, Object> params) {
+		return mDao.selectPw(params);
 	}
 
 }

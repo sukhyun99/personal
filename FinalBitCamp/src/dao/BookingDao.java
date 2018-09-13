@@ -31,5 +31,7 @@ public interface BookingDao {
 	public List<HashMap<String, Object>> getMyBooking(String userId);
 	
 	public int chkBooking(HashMap<String, Object>params);
+	
+	public HashMap<String, Object> getPaymentResultInfo(HashMap<String, Object> params);	//예약 성공 후 보여 줄 데이터
 
 }

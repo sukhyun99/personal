@@ -1,6 +1,7 @@
 package dao;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import model.Mileage;
@@ -9,7 +10,7 @@ public interface MileageDao {
 	
 	public void insertMileage(Mileage mileage);
 
-	public void updateMileage(Mileage mileage);
+	public void updateMileage(HashMap<String, Object>params);
 
 	public void deleteMileage(String userId, Date startDate);
 	
@@ -22,5 +23,9 @@ public interface MileageDao {
 	public void selectMileageAll(String userId);
 	
 	public Mileage checkMileage(String userId);
+	
+	public int getUsableMileage(String userId);
+	
+	public Mileage selectOldMileage(String userId);
 
 }

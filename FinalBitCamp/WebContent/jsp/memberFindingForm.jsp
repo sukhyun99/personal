@@ -6,13 +6,10 @@
 <title>Travel Mate - Account</title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<link
-	href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700"
-	rel="stylesheet" />
-<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700"
-	rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 <link rel="stylesheet" href="css/font-awesome.css" />
 <link rel="stylesheet" href="css/lineicons.css" />
 <link rel="stylesheet" href="css/weather-icons.css" />
@@ -26,88 +23,12 @@
 $(document).ready(function(){
 	$("#passOk").click(function(){
 		findPass();
-// 		var userId = '';
-// 		var email = '';
-// 		if($("#inputId").val()!=''){
-// 			userId = $("#inputId").val();
-// 			if($("#inputPassEmail").val()!=''){
-// 				email = $("#inputPassEmail").val();
-// 				$.ajax({
-// 					type: 'post',
-// 					url: 'findPass.do',
-// 					data: {
-// 						'userId': userId,
-// 						'email': email
-// 					},
-// 					success: function(data){
-// 						if(data==1){
-// 							alert("요청하신 정보를 이메일로 발송하였습니다.")
-// 							location.href = "main.do";
-// 						}
-// 						else if(data==2){
-// 							alert("존재하지 않는 이메일입니다.")
-// 						}
-// 						else if(data==3){
-// 							alert("존재하지 않는 아이디입니다.")
-// 						}
-// 					},
-// 					error: function(xhrReq, status, error){
-// 						alert(status);
-// 						alert(error);
-// 					}
-// 				})
-// 			}
-// 			else{
-// 				alert('이메일을 입력하시오');
-// 			}
-// 		}
-// 		else{
-// 			alert('이름을 입력하시오');
-// 		}
 	})
 	$("input[value='취소']").click(function(){
 		location.href = "main.do";
 	})
 	$("#idOk").click(function(){
 		findId();
-// 		var name = '';
-// 		var email = '';
-// 		if($("#inputName").val()!=''){
-// 			name = $("#inputName").val();
-// 			if($("#inputEmail").val()!=''){
-// 				email = $("#inputEmail").val();
-// 				$.ajax({
-// 					type: 'post',
-// 					url: 'findId.do',
-// 					data: {
-// 						'name': name,
-// 						'email': email
-// 					},
-// 					success: function(data){
-// 						if(data==1){
-// 							alert("요청하신 정보를 이메일로 발송하였습니다.")
-// 							location.href = "main.do";
-// 						}
-// 						else if(data==2){
-// 							alert("존재하지 않는 이메일입니다.")
-// 						}
-// 						else if(data==3){
-// 							alert("존재하지 않는 이름입니다")
-// 						}
-// 					},
-// 					error: function(xhrReq, status, error){
-// 						alert(status);
-// 						alert(error);
-// 					}
-// 				})
-// 			}
-// 			else{
-// 				alert('이메일을 입력하시오');
-// 			}
-// 		}
-// 		else{
-// 			alert('이름을 입력하시오');
-// 		}
 	})
 })
 
@@ -200,9 +121,10 @@ body {
 					<span class="icon-bar"></span> 
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="index.html"> 
-				<i class="fa fa-compass  fa-2x "></i>
-				</a>
+				<a class="navbar-brand" href="main.do">
+                <i class="far fa-compass fa-lg"></i>
+                <span>캠핑스캐너</span>
+                </a>
 			</div>
 			<div class="collapse navbar-collapse" id="navbar-main">
 				<ul class="nav navbar-nav navbar-right">

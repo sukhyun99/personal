@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dao.MyCampDao">
+
+	<insert id="insertMyCamp" parameterType="java.util.HashMap">
+
+		insert into mycamp values(0, #{userId}, #{siteId})
+
+	</insert>
+
+	<select id="selectMyCamp" parameterType="String"
+		resultType="myCamp">
+
+		select * from mycamp where userId = #{userId}
+
+	</select>
+
+	<delete id="deleteMyCamp" parameterType="java.util.HashMap">
+
+		delete from mycamp where userId = #{userId} and siteId = #{siteId}
+
+	</delete>
+
+
+
+
+
+</mapper>

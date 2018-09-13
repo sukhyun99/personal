@@ -14,64 +14,24 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet"/>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
-	
     <link rel="stylesheet" href="css/font-awesome.css"/>
     <link rel="stylesheet" href="css/lineicons.css"/>
     <link rel="stylesheet" href="css/weather-icons.css"/>
     <link rel="stylesheet" href="css/bootstrap.css"/>
     <link rel="stylesheet" href="css/styles.css"/>
     <link rel="stylesheet" href="css/mystyles.css"/>
- 
      <!-- 폰트어썸 -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" 
-    integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
     
       
 <title>예약정보</title>
 
-<script type="text/javascript">
-
-	$(function(){
-		var campJson = ${campJson}
-		var siteJson = ${siteJson}
-		var strHtml = "";
-		var origin_price = ${originPrice}
-		var price = ${price}
-		for(var i=1;i<=siteJson.campSiteStock;i++){
-			strHtml += "<option value='"+i+"'>"+i+"</option>";
-		}
-		$('.site_quantity').append(strHtml);
-		$('.camp-name').text(campJson.campName);
-		$('.site-name').text(siteJson.campSiteName);
-		$('.camp-stock').text(siteJson.campSiteStock+'자리가능');
-		var type = ${type}
-		var price_type = (type==1)?'성':(type==2)?'주':(type==3)?'평':'없음';
-		$('.camp-season').text(price_type);
-		var price_day = "<span class='camp-season"+type+"'>"+price_type+"</span>";
-		var show_price = "<span class='camp-price-price'></span>";
-		$('.price-type').append(price_day).append(show_price);
-		$('.camp-price-price').append('1박&nbsp;'+String(origin_price).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,') + '원');
-		$('.max-campPerson').text(siteJson.campPerson + '명');
-		var mileage = ${mileage}
-		$('.availible-mileage').text(String(mileage).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,') + '원');
-		$('.get-mileage').val(mileage);
-	
-		var input1 = "<input type='hidden' name='campId' class='camp-value' value='"+campJson.campId+"'></input>"
-		var input2 = "<input type='hidden' name='siteId' class='site-value' value='"+siteJson.siteId+"'></input>"
-		var type_input = "<input type='hidden' name='type' class='type-value' value='"+type+"'></input>"
-		
-		$('body').append(input1).append(input2).append(type_input);
-		
-
-	});
-
-</script>
-
-
 </head>
 <body>
-	<input type="hidden" name="sellerId" class="sellerId-value" value="${sellerId }">
-	<input type="hidden" class="get-mileage" value="${mileage}">
+<%-- 	<input type="hidden" name="sellerId" class="sellerId-value" value="${sellerId }"> --%>
+	<input type="hidden" class="get-mileage">
+	<input type="hidden" class="nights" value="${nights }">
+	<input type="hidden" class="days" value="${days }">
 	 <nav class="navbar navbar-default navbar-inverse navbar-theme" id="main-nav">
       <div class="container">
         <div class="navbar-inner nav">
@@ -82,7 +42,7 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="main.do">
               <i class="far fa-compass fa-lg"></i>
               <span>캠핑스캐너</span>
             </a>
@@ -91,7 +51,10 @@
             <ul class="nav navbar-nav navbar-right">
               <li><a href="#">내 캠핑장 등록</a></li>
               <li><a href="#">고객센터</a></li>
-              <li><a href="#">로그인</a></li>
+              <li class="nav-item" id="loginList">
+                    <a class="nav-link" id="login" href="#" data-target="#loginModal">로그인</a>
+                    <input type="hidden" id="loginState" value="${userId}">
+              </li>
             </ul>
           </div>
         </div>
@@ -171,12 +134,11 @@
                         	두지 않고 취소 할 경우, 지불해야 할 금액은 총 요금 입니다.
                         <i class="fas fa-quote-right"></i>
                     </p>
-                    <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
-                          <label class="icheck-label col-md-12">
-                            <input class="icheck" type="checkbox"/>
-                            <span class="icheck-title">동의합니다.</span>
+                    	<div class="col-md-12">
+                          <label class="checkbox-inline icheck-label col-md-2">
+                            <input class="icheck_1" type="checkbox"> 동의합니다.
                           </label>
-                    </div>
+                         </div>
                   </div>
               </div>
               <div class="theme-payment-page-sections-item">
@@ -201,12 +163,12 @@
                     <div class="col-md-6">
                       <label for="theme-payment-page-form-item">인원 수</label>
                       <div class="theme-payment-page-form-item form-group">
-						<input type="hidden" id="campPerson-hidden" value="4">
+						<input type="hidden" id="campPerson-hidden">
 						<i class="fa fa-angle-down"></i>
 						<select name="guest_quantity" class="guest_quantity form-control">
-							<c:forEach var="i" begin="2" end="10">
-								<option value="${i }"><c:out value="${i }"></c:out></option>
-							</c:forEach>
+<%-- 							<c:forEach var="i" begin="2" end="10"> --%>
+<%-- 								<option value="${i }"><c:out value="${i }"></c:out></option> --%>
+<%-- 							</c:forEach> --%>
                         </select>
                       </div>
                     </div>
@@ -230,12 +192,12 @@
                       </div>
                     </div>
                     <div class="col-md-12"> 
-                    <form>
-                    	<label for="theme-payment-page-form-item">요청사항</label>
-                      <div class="theme-payment-page-form-item form-group">
-                          <textarea class="ctm_request form-control" rows="5" id="comment" name="ctm_request"></textarea>
-                      </div>
-                     </form>
+<!--                     <form> -->
+<!--                     	<label for="theme-payment-page-form-item">요청사항</label> -->
+<!--                       <div class="theme-payment-page-form-item form-group"> -->
+<!--                           <textarea class="ctm_request form-control" rows="5" id="comment" name="ctm_request"></textarea> -->
+<!--                       </div> -->
+<!--                      </form> -->
                     </div>
                   </div>
                 </div> 
@@ -246,15 +208,24 @@
                   		<table class="table table-bordered">
                   		<tr>
                   			<th>마일리지 사용 여부 </th>  
-                  			<td>사용 가능 마일리지 :<span class="availible-mileage"></span>
-                  				<div class="mileage-info">
-                  				<label class="radio-inline _ml-100">
-                  					<input type="radio" name="mileage" class="using-mileage" value="1">사용
-                  				</label>
-                  				<label class="radio-inline _ml-50">
-                  					<input type="radio" name="mileage" class="using-mileage" value="0" checked>미사용
-                  				</label>
-                  				</div>
+                  			<td class="radio-mileage">사용 가능한 마일리지 :
+                  				<span class="availible-mileage"></span>
+                  				
+                  				<form class="form-inline">
+                  					<div>
+                  						<div class="form-group">
+									    <label class="sr-only" for="exampleInputPassword3">Password</label>
+									    <input type="number" class="form-control input-sm" id="useMile" min="0" disabled>원
+									  </div>
+									    <label class="radio-inline _ml-50">
+ 	                  						<input type="radio" name="mileage_type" class="using-mileage" value="1">사용
+ 	                  					</label> 
+ 									 	 <label class="radio-inline">
+ 	                  						<input type="radio" name="mileage_type" class="using-mileage" value="0" checked>미사용
+ 	                  					</label>
+                  					</div>
+                  				</form>
+	
                   			</td>
                   		</tr>
                   		<tr>
@@ -263,9 +234,6 @@
                   				<label class="radio-inline">
                   					<input type="radio" class="payment-method" name="payment_method" value="1" checked>신용카드
                   				</label>
-<!--                   				<label class="radio-inline"> -->
-<!--                   					<input type="radio" class="payment-method" name="payment_method" value="0">계좌이체 -->
-<!--                   				</label> -->
                   			</td>
                   		</tr>
                   	</table>
@@ -280,12 +248,14 @@
                       <h3 class="theme-payment-page-sections-item-title col-md-11 _p-0 _mr-30">약관동의</h3>
                 <p class="theme-payment-page-booking-subtitle _pb-10">개인정보 수집 동의</p>
                   <div class="checkbox-agree_1">
+                  	  <span class="icheck-title col-md-2 _mb-10"><b>약관동의</b></span>
+	                      <label class="icheck-inline col-md-4">
+	    						<input type="checkbox" class="icheck_2">
+							   	동의합니다.
+						  </label>
+
                       <div class="accordion btn btn-default" data-toggle="collapse" data-target="#demo">
                         <div class="checkbox theme-search-results-sidebar-section-checkbox-list-item">
-<!--                           <label class="icheck-label col-md-1"> -->
-                            <input class="icheck" type="checkbox">
-                            <span class="icheck-title col-md-1"><b>동의</b></span>
-<!--                           </label> -->
                           <a style="text-decoration: none;">보기</a>
                         </div>
                         </div>
@@ -325,7 +295,7 @@
                 <ul class="theme-sidebar-section-summary-list" >
                   <c:choose>
                   	<c:when test="${nights != 0 }">
-                  		<li><span class="nights">${nights }박</span>&nbsp;${days }일</li>
+                  		<li><span>${nights }박</span>&nbsp;${days }일</li>
                   	</c:when>
                   	<c:otherwise>
                   		<li>${days }일</li>
@@ -345,6 +315,7 @@
                       <h5 class="theme-sidebar-section-charges-item-title camp-site-name">사이트 수</h5>
                        <p class="site-num theme-sidebar-section-charges-item-subtitle"></p>
                       <p class="site-price theme-sidebar-section-charges-item-price"></p>
+
                     </li>
                     <li class="theme-sidebar-section-charges-item">
                       <h5 class="theme-sidebar-section-charges-item-title">인원 수</h5>
@@ -540,13 +511,66 @@
         </div>
       </div>
     </div>
-   
-   <script type="text/javascript">
+
+	<script type="text/javascript">
+	$(document).ready(function(){
+		if($('#loginState').val()){
+			$('#login').text($('#loginState').val()+'님 로그아웃');
+			$('#login').attr('href', 'logout.do');
+			$('#loginList').before('<li class="nav-item"><a class="nav-link" href="#">마이페이지</a></li>');
+		}
+		var campJson = ${campJson}
+		var siteJson = ${siteJson}
+		var origin_price = '${originPrice}'	//사이트1박 가격
+		var type = ${type}
+		var mileage = ${mileage}
+		var price = ${price}
+// 		getEnd(siteJson.campPerson);
+			var strHtml = "";
+			var campPersonHtml = "";
+			for(var i=1;i<=siteJson.campSiteStock;i++){						//사이트 재고에 따른 선택 옵션 생성
+				strHtml += "<option value='"+i+"'>"+i+"</option>";
+			}
+			$('.site_quantity').append(strHtml);
+			
+			for(var i=2;i<=(siteJson.campPerson+5);i++){						//최대인원수+5 옵션 생성
+				campPersonHtml += "<option value='"+i+"'>"+i+"</option>";
+			}
+			$('.guest_quantity').append(campPersonHtml);
+			
+			$('.camp-name').text(campJson.campName);						//캠프이름 셋팅
+			$('.site-name').text(siteJson.campSiteName);					//사이트이름 셋팅
+			$('.camp-stock').text(siteJson.campSiteStock+'자리가능');
+			$('#campPerson-hidden').val(siteJson.campPerson);
+															//요일에 따른 가격 변동사항 적용
+			var price_type = (type==1)?'성':(type==2)?'평':(type==3)?'주':'없음';
+			$('.camp-season').text(price_type);
+			var price_day = "<span class='camp-season"+type+"'>"+price_type+"</span>";	//성/평/주 선택해서 html 셋팅
+			var show_price = "<span class='camp-price-price'></span>";					//가격셋팅
+			$('.price-type').append(price_day).append(show_price);
+			$('.camp-price-price').append('1박&nbsp;'+origin_price.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,') + '원');
+			$('.max-campPerson').text(siteJson.campPerson + '명');
+			
+			$('.get-mileage').val(mileage);
+			
+			if(mileage==0){					//마일리지가 0원이면 마일리지 사용 여부 선택하는 라디오 버튼 disabled 설정
+				$('input[name=mileage_type]').attr('disabled',true);
+			}
+			$('.availible-mileage').text(String(mileage).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,') + '원');
+			
+			var input1 = "<input type='hidden' name='campId' class='camp-value' value='"+campJson.campId+"'></input>"
+			var input2 = "<input type='hidden' name='siteId' class='site-value' value='"+siteJson.siteId+"'></input>"
+			var type_input = "<input type='hidden' name='type' class='type-value' value='"+type+"'></input>"
+			
+			$('body').append(input1).append(input2).append(type_input);
+			
 		
-   </script>
-   
-   
-    <script src="js/jquery.js"></script>
+	});
+	
+</script>
+
+
+	<script src="js/jquery.js"></script>
     <script src="js/moment.js"></script>
     <script src="js/bootstrap.js"></script>
 <!--     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYeBBmgAkyAN_QKjAVOiP_kWZ_eQdadeI&callback=initMap&libraries=places"></script> -->

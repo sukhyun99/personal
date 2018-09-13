@@ -277,7 +277,7 @@ function datePickers() {
 
     $('.datePickerStart').datetimepicker({
         format: 'YYYY-MM-DD-ddd',
-        minDate: new Date()        
+        minDate: new Date()
     }).on('dp.change', function(e){
         var parent = $($(this).parents('.row')[0]),
             endDate = parent.find('.datePickerEnd');

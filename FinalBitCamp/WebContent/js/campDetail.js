@@ -61,14 +61,14 @@ function detailLoad(campDetail, stockList){
 	}
 	else if(campDetail[0].type==2){
 		$.each(campDetail, function(index, item){
-			$("#campSeason"+item.siteId).attr('class', 'camp-season2');
-			$("#campSeason"+item.siteId).text('평');
+			$("#campSeason"+item.siteId).attr('class', 'camp-season3');
+			$("#campSeason"+item.siteId).text('주');
 		})
 	}
 	else if(campDetail[0].type==3){
 		$.each(campDetail, function(index, item){
-			$("#campSeason"+item.siteId).attr('class', 'camp-season3');
-			$("#campSeason"+item.siteId).text('주');
+			$("#campSeason"+item.siteId).attr('class', 'camp-season2');
+			$("#campSeason"+item.siteId).text('평');
 		})
 	}
 	$(".bookingBtn").on('click', '.btn-booking-form', function(){

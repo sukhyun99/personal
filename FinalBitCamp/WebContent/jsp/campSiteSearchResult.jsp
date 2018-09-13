@@ -8,6 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=68583abf1012481a1d352ae8faf71f26"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700"	rel="stylesheet" />
 <link rel="stylesheet" href="css/font-awesome.css" />
@@ -23,8 +24,9 @@ $(document).ready(function(){
 	var csl = ${csl};
 	var sc = ${sc};
 	var mcl = ${mcl};
+	var userId ='';
 	if(csl[0].userId!=null){
-		var userId = csl[0].userId;
+		userId = csl[0].userId;
 		$("#loginState").val(userId);
 	}
 	if($('#loginState').val()){
@@ -38,7 +40,6 @@ $(document).ready(function(){
 			$('#loginModal').modal();	
 		}		
 	})
-	var userId = $("#loginState").val();
 	var cslArray = [];
 	for(var i=0; i<csl.length; i++){
 		cslArray.push(csl[i]);
@@ -57,6 +58,7 @@ $(document).ready(function(){
 	var map = new daum.maps.Map(container, options); //지도 생성 및 객체 리턴
 	myCampList(mcl);
 	mapLoad(csl, map);
+	bookMark(userId);
 	$("#next").click(function(){
 		sc.page = sc.page + 1;
 		$.ajax({
@@ -148,7 +150,6 @@ $(document).ready(function(){
 			mapLoad(cslArray, map);
 		}		//높은가격순의 끝
 	});			//정렬기준의 끝
-	bookMark(userId);
 	detail(sc);
 });
 </script>
@@ -165,9 +166,10 @@ $(document).ready(function(){
 						<span class="icon-bar"></span> 
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="index.html"> 
-					<i class="fa fa-compass  fa-2x "></i>
-					</a>
+					<a class="navbar-brand" href="main.do">
+              		<i class="far fa-compass fa-lg"></i>
+              		<span>캠핑스캐너</span>
+            		</a>
 				</div>
 				<div class="collapse navbar-collapse" id="navbar-main">
 					<ul class="nav navbar-nav"></ul>
@@ -419,11 +421,11 @@ $(document).ready(function(){
   						</div>
   						<div class="form-group">
     						<div class="col-sm-offset-3 col-sm-10">
-      							<div class="checkbox">
-       						 	<label>
-          						<input type="checkbox">로그인 유지
-        						</label>
-      							</div>
+<!--       							<div class="checkbox"> -->
+<!--        						 	<label> -->
+<!--           						<input type="checkbox">로그인 유지 -->
+<!--         						</label> -->
+<!--       							</div> -->
     						</div>
  					 	</div>
   						<div class="form-group">
@@ -468,8 +470,7 @@ $(document).ready(function(){
 	<script src="js/jquery.js"></script>
 	<script src="js/moment.js"></script>
 	<script src="js/bootstrap.js"></script>
-	<script async defer
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYeBBmgAkyAN_QKjAVOiP_kWZ_eQdadeI&callback=initMap&libraries=places"></script>
+	<script async defer	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYeBBmgAkyAN_QKjAVOiP_kWZ_eQdadeI&callback=initMap&libraries=places"></script>
 	<script src="js/owl-carousel.js"></script>
 	<script src="js/blur-area.js"></script>
 	<script src="js/icheck.js"></script>

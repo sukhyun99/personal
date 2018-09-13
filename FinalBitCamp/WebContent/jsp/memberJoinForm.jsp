@@ -6,18 +6,15 @@
 <title>Travel Mate - Account</title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<link
-	href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700"
-	rel="stylesheet" />
-<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700"
-	rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet" />
 <link rel="stylesheet" href="css/font-awesome.css" />
 <link rel="stylesheet" href="css/lineicons.css" />
 <link rel="stylesheet" href="css/weather-icons.css" />
 <link rel="stylesheet" href="css/bootstrap.css" />
 <link rel="stylesheet" href="css/styles.css" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script	src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -197,7 +194,6 @@ $(document).ready(function(){
 								'addr': addr
 							},
 							success: function(data){
-								alert("success")
 								nextStepWizard.removeAttr('disabled').trigger('click');
 							},
 							error: function(xhrReq, status, error){
@@ -268,9 +264,10 @@ $(document).ready(function(){
 					<span class="icon-bar"></span> 
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="index.html"> 
-				<i class="fa fa-compass  fa-2x "></i>
-				</a>
+				<a class="navbar-brand" href="main.do">
+                <i class="far fa-compass fa-lg"></i>
+                <span>캠핑스캐너</span>
+                </a>
 			</div>
 			<div class="collapse navbar-collapse" id="navbar-main">
 				<ul class="nav navbar-nav navbar-right">

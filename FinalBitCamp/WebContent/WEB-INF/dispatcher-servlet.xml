@@ -24,6 +24,18 @@
 			<mvc:mapping path="/memebrModifyPwCheck.do" />
 			<mvc:mapping path="/pwUpdate.do" />
 			<mvc:mapping path="/pwChk.do" />
+			<mvc:mapping path="/memberBookCampSite.do" />
+			<mvc:mapping path="/memberPaymentSuccess.do" />
+			<mvc:mapping path="/memberGetOneSiteInfo.do" />
+			<mvc:mapping path="/myCamp.do" />
+			<mvc:mapping path="/removeMyCamp.do" />
+			<mvc:mapping path="/leaveMember.do" />
+			<mvc:mapping path="/addrUpdate.do" />
+			<mvc:mapping path="/phoneUpdate.do" />
+			<mvc:mapping path="/emailUpdate.do" />
+			<mvc:mapping path="/pwUpdate.do" />
+			<mvc:mapping path="/pwChk.do" />
+			<mvc:mapping path="/logout.do" />
 			<ref bean="loginCheckInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>

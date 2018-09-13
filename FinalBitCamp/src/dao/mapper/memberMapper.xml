@@ -8,14 +8,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <insert id="insertMember" parameterType="member">
 
 	insert into member values(
-	#{userId}, #{pw}, #{name}, #{phone}, #{email}, #{addr}, #{post}, #{admin}, #{joinDate}, #{type}
+	#{userId}, password(#{pw}), #{name}, #{phone}, #{email}, #{addr}, #{post}, #{admin}, #{joinDate}, #{type}
 	)
 
 </insert>
 
 <update id="updateMember" parameterType="member">
 
-	update member set pw = #{pw}, name = #{name}, phone = #{phone}, email = #{email}, addr = #{addr},
+	update member set pw = password(#{pw}), name = #{name}, phone = #{phone}, email = #{email}, addr = #{addr},
 	post = #{post}, admin = #{admin}, joinDate = #{joinDate}, type = #{type} where userId = #{userId}
 
 </update>
@@ -49,6 +49,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	select * from member where num=#{num}
 
+</select>
+
+<select id="selectPw" parameterType="java.util.HashMap" resultType="String">
+	select password(#{pw}) from member where userId = #{userId}
 </select>
 
 </mapper>

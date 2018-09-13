@@ -1,5 +1,8 @@
 package dao;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import model.Member;
 
 public interface MemberDao {
@@ -17,4 +20,6 @@ public interface MemberDao {
 	public int insertMemberSns(Member member);
 	
 	public void deleteMember(String userId);
+	
+	public String selectPw(HashMap<String, Object> params);
 }

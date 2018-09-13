@@ -3,15 +3,19 @@
  */
 function myCampList(mcl){
 	$.each(mcl, function(index, item){
-		alert(item);
 		$("[id='myCamp"+item+"']").css('color', '#0093d2');
 	})
 }
 
 function bookMark(userId){
 	$(".campBookmark").on('click', '.theme-search-results-item-bookmark', function(){
-		var siteId = $(this).attr('id');
-		MyCamp(siteId, userId);
+		if(!userId){
+			alert('로그인 후 이용해주세요')
+		}
+		else{
+			var siteId = $(this).attr('id');
+			MyCamp(siteId, userId);
+		}
 	})
 }
 
@@ -40,7 +44,6 @@ function MyCamp(siteId, userId){
 				'userId': userId
 			},
 			success: function(){
-				alert('success');
 				$("[id="+siteId+"]").css('color', '#8c8c8c');
 			}
 		})

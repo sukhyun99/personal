@@ -12,6 +12,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=68583abf1012481a1d352ae8faf71f26"></script>
     <link rel="stylesheet" href="css/font-awesome.css"/>
@@ -23,8 +24,7 @@
     <!-- angularJS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <!-- 폰트어썸 -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" 
-    integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 <script type="text/javascript">
 $(document).ready(function(){
 	var campDetail = ${campDetail};
@@ -66,7 +66,6 @@ $(document).ready(function(){
 // 	tapMap(campDetail);
 	$(".google-map").prop('data-lat', campDetail[0].latitude);
 	$(".google-map").prop('data-lng', campDetail[0].longitude);
-// 	alert($('.google-map').length)
 	
 	$("#rate").text(campDetail[0].rate);
 	$(".theme-search-area-submit-no-border").click(function(){
@@ -88,8 +87,9 @@ $(document).ready(function(){
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="main.do">
               <i class="far fa-compass fa-lg"></i>
+              <span>캠핑스캐너</span>
             </a>
           </div>
           

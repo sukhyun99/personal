@@ -1,5 +1,7 @@
 package service;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpSession;
 
 import model.Member;
@@ -23,5 +25,7 @@ public interface MemberService {
 	public int insertMemberSns(Member member);
 	
 	public void leaveMember(String userId);
+	
+	public String getPw(HashMap<String, Object> params);
 
 }

@@ -47,7 +47,7 @@ $(document).ready(function(){
 	if($('#loginState').val()){
 		$('#login').text($('#loginState').val()+'님 로그아웃');
 		$('#login').attr('href', 'logout.do');
-		$('#loginList').before('<li class="nav-item"><a class="nav-link" href="memberModifyPwCheck.do">마이페이지</a></li>');
+		$('#loginList').before('<li class="nav-item"><a class="nav-link" href="memberMyBooking.do">마이페이지</a></li>');
 	}
 	
 	$('#login').click(function(e){

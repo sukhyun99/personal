@@ -347,8 +347,8 @@ public class MemberController {
 		}
 	}
 	
-	@RequestMapping(value = "memberLogin.do", method = RequestMethod.POST)
-	   public void loginMember(HttpServletRequest req, HttpServletResponse resp,
+	@RequestMapping("memberLogin.do")
+	   public void loginMember(HttpServletResponse resp,
 	         HttpSession session, String userId, String pw) throws ServletException, IOException{
 	      int response;
 	      if (mService.login(userId, pw)) {

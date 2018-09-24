@@ -162,7 +162,7 @@ public class CampController {
 			@RequestParam(defaultValue = "0") int type, HttpServletResponse resp,
 			HttpSession session) {
 		if(page>1) {
-			List<Integer> myCampList =  new ArrayList<>();
+//			List<Integer> myCampList =  new ArrayList<>();
 			resp.setContentType("application/json; charset=utf8");
 			List<Map<String, Object>> campSearchList = cService.campSiteSearch(chkIn, chkOut, search, campPerson, type, page, qty);
 			for(int i=0; i<campSearchList.size(); i++) {
@@ -172,19 +172,19 @@ public class CampController {
 			if(session.getAttribute("userId")!=null) {
 				String userId = (String) session.getAttribute("userId");
 				campSearchList.get(0).put("userId", userId);
-				if(mcSerivce.getMyCamp(userId)!=null) {
-					List<MyCamp> list = mcSerivce.getMyCamp(userId);
-					for(int i=0; i<list.size(); i++) {
-						int siteId = list.get(i).getSiteId();
-						for(int p=0; p<campSearchList.size(); p++) {
-							int siteId_p = (int) campSearchList.get(p).get("siteId");
-							if(siteId==siteId_p) {
-								myCampList.add(siteId);
-							}
-						}
-					}
-					campSearchList.get(0).put("mcl", myCampList);
-				}
+//				if(mcSerivce.getMyCamp(userId)!=null) {
+//					List<MyCamp> list = mcSerivce.getMyCamp(userId);
+//					for(int i=0; i<list.size(); i++) {
+//						int siteId = list.get(i).getSiteId();
+//						for(int p=0; p<campSearchList.size(); p++) {
+//							int siteId_p = (int) campSearchList.get(p).get("siteId");
+//							if(siteId==siteId_p) {
+//								myCampList.add(siteId);
+//							}
+//						}
+//					}
+//					campSearchList.get(0).put("mcl", myCampList);
+//				}
 			}
 			Gson gson = new Gson();
 			String csl = gson.toJson(campSearchList);
@@ -196,7 +196,7 @@ public class CampController {
 			}
 		}
 		else {
-			List<Integer> myCampList =  new ArrayList<>();
+//			List<Integer> myCampList =  new ArrayList<>();
 			int chkin = Integer.parseInt(chkIn);
 			if(type==0) {
 				if(chkin<20180827&chkin>20180722) {
@@ -237,18 +237,18 @@ public class CampController {
 			if(session.getAttribute("userId")!=null) {
 				String userId = (String) session.getAttribute("userId");
 				campSearchList.get(0).put("userId", userId);
-				if(mcSerivce.getMyCamp(userId)!=null) {
-					List<MyCamp> list = mcSerivce.getMyCamp(userId);
-					for(int i=0; i<list.size(); i++) {
-						int siteId = list.get(i).getSiteId();
-						for(int p=0; p<campSearchList.size(); p++) {
-							int siteId_p = (int) campSearchList.get(p).get("siteId");
-							if(siteId==siteId_p) {
-								myCampList.add(siteId);
-							}
-						}
-					}
-				}
+//				if(mcSerivce.getMyCamp(userId)!=null) {
+//					List<MyCamp> list = mcSerivce.getMyCamp(userId);
+//					for(int i=0; i<list.size(); i++) {
+//						int siteId = list.get(i).getSiteId();
+//						for(int p=0; p<campSearchList.size(); p++) {
+//							int siteId_p = (int) campSearchList.get(p).get("siteId");
+//							if(siteId==siteId_p) {
+//								myCampList.add(siteId);
+//							}
+//						}
+//					}
+//				}
 			}
 //			HashMap<String, Object> stocks = (HashMap<String, Object>) campSearchList.get(campSearchList.size()-1);
 //			campSearchList.remove(campSearchList.size()-1);
@@ -265,11 +265,10 @@ public class CampController {
 			Gson gson = new Gson();
 			String csl = gson.toJson(campSearchList);
 			String sc = gson.toJson(searchCon);
-			String mcl = gson.toJson(myCampList);
-			System.out.println(csl.toString());
+//			String mcl = gson.toJson(myCampList);
 			mav.addObject("csl", csl);
 			mav.addObject("sc", sc);
-			mav.addObject("mcl", mcl);
+//			mav.addObject("mcl", mcl);
 			mav.setViewName("campSiteSearchResult");
 			return mav;
 		}

@@ -72,26 +72,25 @@ $(document).ready(function(){
 		</div>
 	</div>
 	</nav>
-	<div
-		class="theme-page-section theme-page-section-gray theme-page-section-lg">
+	<div class="theme-page-section theme-page-section-gray theme-page-section-lg">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-2 ">
-					<div class="theme-account-sidebar">
-						<div class="theme-account-avatar">
-							<img class="theme-account-avatar-img" src="./img/70x70.png" alt="Image Alternative text" title="Image Title" />
-							<p class="theme-account-avatar-name">전다혜 님<br> 마일리지 : 500</p>
-						</div>
-						<nav class="theme-account-nav">
-						<ul class="theme-account-nav-list">
-							<li><a href="#"> <i class="fa fa-history"></i>나의 예약</a></li>
-							<li><a href="memberMyQuestion.do"> <i class="fa fa-bell"></i>내가 작성한 글</a></li>
-							<li><a href="#"> <i class="fa fa-bookmark"></i>내가 찜한 캠핑장</a></li>
-							<li><a href="#"> <i class="fa fa-user-circle-o"></i>내 정보 수정</a></li>
-						</ul>
-						</nav>
-					</div>
-				</div>
+<!-- 				<div class="col-md-2 "> -->
+<!-- 					<div class="theme-account-sidebar"> -->
+<!-- 						<div class="theme-account-avatar"> -->
+<!-- 							<img class="theme-account-avatar-img" src="./img/70x70.png" alt="Image Alternative text" title="Image Title" /> -->
+<!-- 							<p class="theme-account-avatar-name">전다혜 님<br> 마일리지 : 500</p> -->
+<!-- 						</div> -->
+<!-- 						<nav class="theme-account-nav"> -->
+<!-- 						<ul class="theme-account-nav-list"> -->
+<!-- 							<li><a href="#"> <i class="fa fa-history"></i>나의 예약</a></li> -->
+<!-- 							<li><a href="memberMyQuestion.do"> <i class="fa fa-bell"></i>내가 작성한 글</a></li> -->
+<!-- 							<li><a href="#"> <i class="fa fa-bookmark"></i>내가 찜한 캠핑장</a></li> -->
+<!-- 							<li><a href="#"> <i class="fa fa-user-circle-o"></i>내 정보 수정</a></li> -->
+<!-- 						</ul> -->
+<!-- 						</nav> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
 				<div class="col-md-10">
 					<div class="container">
 						<h2 style="margin-top: 10px;">

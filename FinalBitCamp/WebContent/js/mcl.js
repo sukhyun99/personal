@@ -7,6 +7,12 @@ function myCampList(mcl){
 	})
 }
 
+function myCampListRe(mcl){
+	$.each(mcl, function(index, item){
+		$("[id='myCamp"+item.siteId+"']").css('color', '#0093d2');
+	})
+}
+
 function bookMark(userId){
 	$(".campBookmark").on('click', '.theme-search-results-item-bookmark', function(){
 		if(!userId){
@@ -29,6 +35,17 @@ function addMyCamp(siteId, userId){
 			'siteId': num[1]
 		},
 		success: function(){
+			$.ajax({
+				type: 'post',
+				url: 'getMyCamp.do',
+				success: function(data){
+					mcl = data
+					alert(mcl.toString())
+					$.each(mcl, function(index, item){
+						$("[id='myCamp"+item.siteId+"']").css('color', '#0093d2');
+					})
+				}
+			})
 		}
 	})
 }
@@ -44,7 +61,17 @@ function MyCamp(siteId, userId){
 				'userId': userId
 			},
 			success: function(){
+				$.ajax({
+					type: 'post',
+					url: 'getMyCamp.do',
+					success: function(data){
+						$.each(data, function(index, item){
+							$("[id='myCamp"+item.siteId+"']").css('color', '#0093d2');
+						})
+					}
+				})
 				$("[id="+siteId+"]").css('color', '#8c8c8c');
+				
 			}
 		})
 	}

@@ -42,6 +42,11 @@ public class BookingController {
 	
 	@Autowired
 	private BookingService bookingService;
+	
+	@RequestMapping("memberMyBooking.do")
+	public String memberMyBooking() {
+		return "memberMyBooking";
+	}
 
 	@RequestMapping("memberBookCampSite.do")
 	public ModelAndView newBooking(HttpSession session, @RequestParam int campId, @RequestParam int mileage,

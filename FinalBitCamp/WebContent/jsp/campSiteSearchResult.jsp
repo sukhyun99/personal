@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -23,7 +22,8 @@
 $(document).ready(function(){
 	var csl = ${csl};
 	var sc = ${sc};
-	var mcl = ${mcl};
+// 	var mcl = ${mcl};
+// 	alert(mcl.toString())
 	var userId ='';
 	if(csl[0].userId!=null){
 		userId = csl[0].userId;
@@ -39,6 +39,30 @@ $(document).ready(function(){
 		if(text=='로그인'){
 			$('#loginModal').modal();	
 		}		
+	})
+	$('#loginChk').click(function(){
+		$.ajax({
+			type: 'post',
+			url: 'memberLogin.do',
+			data: {
+				'userId': $('#userId').val(),
+				'pw': $('#pw').val()
+			},
+			success: function(data){
+				if(data==1){
+					alert('login!')
+					$('#loginState').val($('#userId').val())
+					$('#login').text($('#userId').val()+'님 로그아웃');
+					$('#login').attr('href', 'logout.do');
+					$('#loginList').before('<li class="nav-item"><a class="nav-link" href="memberMyBooking.do">마이페이지</a></li>');
+				}
+				else{
+					alert('login Failed!')
+					$('#userId').val('')
+					$('#pw').val('')
+				}
+			}
+		})
 	})
 	var cslArray = [];
 	for(var i=0; i<csl.length; i++){
@@ -56,9 +80,9 @@ $(document).ready(function(){
 		level : 12 //지도의 레벨(확대, 축소 정도)
 	};
 	var map = new daum.maps.Map(container, options); //지도 생성 및 객체 리턴
-	myCampList(mcl);
+// 	myCampList(mcl);
 	mapLoad(csl, map);
-	bookMark(userId);
+// 	bookMark(userId);
 	$("#next").click(function(){
 		sc.page = sc.page + 1;
 		$.ajax({
@@ -75,11 +99,11 @@ $(document).ready(function(){
 			success: function(csl){
 				cslLoad(csl);
 				detail(sc);
-				$.each(csl[0].mcl, function(index, item){
-					mcl.push(item);
-				})
-				myCampList(mcl);
-				bookMark(userId);
+// 				$.each(csl[0].mcl, function(index, item){
+// 					mcl.push(item);
+// 				})
+// 				myCampList(mcl);
+// 				bookMark(userId);
 				$.each(csl, function(index, item){
 					cslArray.push(item);
 				});
@@ -108,10 +132,11 @@ $(document).ready(function(){
 				}
 			}
 			cslLoad(cslArray);
-			myCampList(mcl);
-			bookMark(userId);
+// 			myCampList(mcl);
+// 			bookMark(userId);
 			detail(sc);
 			mapLoad(cslArray, map);
+// 			alert(mcl.toString());
 		}		//인기순의 끝
 		else if($(this).text()=="낮은가격순"){
 			$("#start").children().remove();
@@ -126,8 +151,8 @@ $(document).ready(function(){
 				}
 			}
 			cslLoad(cslArray);
-			myCampList(mcl);
-			bookMark(userId);
+// 			bookMark(userId);
+// 			myCampList(mcl);
 			detail(sc);
 			mapLoad(cslArray, map);
 		}		//낮은가격순의 끝
@@ -144,8 +169,8 @@ $(document).ready(function(){
 				}
 			}
 			cslLoad(cslArray);
-			myCampList(mcl);
-			bookMark(userId);
+// 			myCampList(mcl);
+// 			bookMark(userId);
 			detail(sc);
 			mapLoad(cslArray, map);
 		}		//높은가격순의 끝
@@ -175,8 +200,8 @@ $(document).ready(function(){
 					<ul class="nav navbar-nav"></ul>
 					<ul class="nav navbar-nav navbar-right">
 						<ul class="nav navbar-nav navbar-right">
-							<li class="nav-item "><a class="nav-link" href="#">내 캠핑장 등록</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">고객센터</a></li>
+							<li class="nav-item "><a class="nav-link" href="">내 캠핑장 등록</a></li>
+							<li class="nav-item"><a class="nav-link" href="customerCenter.do">고객센터</a></li>
 							<li class="nav-item" id="loginList">
                     			<a class="nav-link" id="login" href="#" data-target="#loginModal">로그인</a>
                     			<input type="hidden" id="loginState" value="${member.userId}">
@@ -276,13 +301,11 @@ $(document).ready(function(){
 					</div>
 					<div class="theme-search-results">
 						<div class="_mob-h" id="start">
-						
 						</div>					
 					</div>
 					
 					<div id="nextBtn">
-					<a class="btn _tt-uc _fs-sm btn-dark btn-block btn-lg" id="next">
-						캠핑장 더 보기</a></div>
+					<a class="btn _tt-uc _fs-sm btn-dark btn-block btn-lg" id="next">캠핑장 더 보기</a></div>
 				</div>
 				<div class="col-md-5 ">
 					<div class="sticky-col _mob-h">
@@ -299,7 +322,6 @@ $(document).ready(function(){
 						</div>
 					</div>
 				</div>
-
 				<div class="col-md-3 "></div>
 			</div>
 		</div>
@@ -368,7 +390,6 @@ $(document).ready(function(){
 					</div>
 				</div>
 				<div class="col-md-4">
-				
 				</div>
 			</div>
 		</div>
@@ -406,7 +427,7 @@ $(document).ready(function(){
         </div>
         <div class="modal-body">
         	<div id="normal" class="tab-pane fade in active"><br>
-        		<form class="form-horizontal" action="memberLogin.do" method="post">
+        		<div class="form-horizontal">
         				<div class="form-group">
         					<label for="inputEmail3" class="col-sm-3 control-label">아이디</label>
     						<div class="col-sm-6">
@@ -430,13 +451,13 @@ $(document).ready(function(){
  					 	</div>
   						<div class="form-group">
     						<div class="col-sm-offset-3 col-sm-6">
-      						<button type="submit" class="btn btn-primary btn-lg btn-block" >확인</button>
+      						<button type="submit" class="btn btn-primary btn-lg btn-block" data-dismiss="modal" id="loginChk">확인</button>
    					 		</div>	
         				</div>
         				<div class="form-group">
     						<div class="col-sm-offset-3 col-sm-6">
-      						<a href="https://kauth.kakao.com/oauth/authorize?client_id=1ac3e7706d2467a442f2585681668ea0&redirect_uri=http://localhost:8080/FinalBitCamp/kakaoLogin.do&response_type=code&scope=account_email" 
-							id="kakaoBtn"><img alt="" src="img/kakao.png" style="width : 270px; height: 46"></a>
+      						<a href="https://kauth.kakao.com/oauth/authorize?client_id=1ac3e7706d2467a442f2585681668ea0&redirect_uri=http://localhost:8080/FinalBitCamp/kakaoLogin.do&response_type=code&scope=account_email" id="kakaoBtn">
+							<img alt="" src="img/kakao.png" style="width : 270px; height: 46"></a>
    					 		</div>	
         				</div>
         				<div class="form-group">
@@ -450,15 +471,13 @@ $(document).ready(function(){
       						<a href="#" class="col-sm-4 _p-0">회원가입</a>
    					 		</div>	
         				</div>
-        		</form>
+        		</div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
-      
     </div>
   </div>
-      
  </div>
 </div>
 	<script src="js/mcl.js"></script>
